@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://weiluoyan.github.io/hellotas/"
 languageCode = "en-us"
 title = "Tasmania Welcome"
 theme = "PaperMod"
