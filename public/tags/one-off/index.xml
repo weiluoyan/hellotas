@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>One-Off on Tasmania Welcome</title>
-    <link>//:1313/tags/one-off/</link>
-    <description>Recent content in One-Off on Tasmania Welcome</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sun, 05 Oct 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="//:1313/tags/one-off/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>CyberSecurity 2025 Melbourne</title>
-      <link>//:1313/events/cybersecurity-2025-melbourne/</link>
-      <pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>//:1313/events/cybersecurity-2025-melbourne/</guid>
-      <description>Industry conference for cyber security students.</description>
-    </item>
-  </channel>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>One-Off on Tasmania Welcome</title>
+		<link>//:1313/tags/one-off/</link>
+		<description>Recent content in One-Off on Tasmania Welcome</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 05 Oct 2025 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//:1313/tags/one-off/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>CyberSecurity 2025 Melbourne</title>
+				<link>//:1313/events/cybersecurity-2025-melbourne/</link>
+				<pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/cybersecurity-2025-melbourne/</guid>
+				<description>Industry conference for cyber security students.</description>
+			</item>
+	</channel>
 </rss>

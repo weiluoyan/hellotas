@@ -1,7 +1,6 @@
 baseURL = "https://weiluoyan.github.io/hellotas/"
 languageCode = "en-us"
 title = "Tasmania Welcome"
-theme = "PaperMod"
 
 [params]
   description = "A step-by-step journey for international ICT students in Tasmania."

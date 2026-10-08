@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Networking on Tasmania Welcome</title>
-    <link>//:1313/tags/networking/</link>
-    <description>Recent content in Networking on Tasmania Welcome</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 12 Nov 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="//:1313/tags/networking/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Industry Visit 2025</title>
-      <link>//:1313/events/industry-visit-2025/</link>
-      <pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>//:1313/events/industry-visit-2025/</guid>
-      <description>Students visited local ICT companies in person.</description>
-    </item>
-    <item>
-      <title>ICT Careers Night 2025</title>
-      <link>//:1313/events/ict-careers-night-2025/</link>
-      <pubDate>Sat, 25 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>//:1313/events/ict-careers-night-2025/</guid>
-      <description>Alumni and industry guests shared career paths.</description>
-    </item>
-    <item>
-      <title>TasICT Festival 2025</title>
-      <link>//:1313/events/tasict-festival-2025/</link>
-      <pubDate>Wed, 10 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>//:1313/events/tasict-festival-2025/</guid>
-      <description>Tasmania&amp;rsquo;s biggest ICT industry festival.</description>
-    </item>
-  </channel>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Networking on Tasmania Welcome</title>
+		<link>//:1313/tags/networking/</link>
+		<description>Recent content in Networking on Tasmania Welcome</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Wed, 12 Nov 2025 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//:1313/tags/networking/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Industry Visit 2025</title>
+				<link>//:1313/events/industry-visit-2025/</link>
+				<pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/industry-visit-2025/</guid>
+				<description>Students visited local ICT companies in person.</description>
+			</item>
+			<item>
+				<title>ICT Careers Night 2025</title>
+				<link>//:1313/events/ict-careers-night-2025/</link>
+				<pubDate>Sat, 25 Oct 2025 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/ict-careers-night-2025/</guid>
+				<description>Alumni and industry guests shared career paths.</description>
+			</item>
+			<item>
+				<title>TasICT Festival 2025</title>
+				<link>//:1313/events/tasict-festival-2025/</link>
+				<pubDate>Wed, 10 Sep 2025 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/tasict-festival-2025/</guid>
+				<description>Tasmania&amp;rsquo;s biggest ICT industry festival.</description>
+			</item>
+	</channel>
 </rss>
