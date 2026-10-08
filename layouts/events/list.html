@@ -32,8 +32,15 @@
   <div class="events-grid">
     {{ range .Pages.ByDate.Reverse }}
     <article class="event-card">
-      <div class="event-thumb">Event photo<br><span class="thumb-sub">{{ .Title }}</span></div>
-      <div class="event-body">
+<div class="event-thumb">
+  {{ if .Params.image }}
+    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
+  {{ else }}
+    <div class="thumb-placeholder">Event photo<br><span class="thumb-sub">{{ .Title }}</span></div>
+  {{ end }}
+</div>  
+
+<div class="event-body">
         <div class="event-tags">
           <span class="tag tag-type">{{ .Params.event_type }}</span>
           {{ range .Params.tags }}<span class="tag tag-normal">{{ . }}</span>{{ end }}
