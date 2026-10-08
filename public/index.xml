@@ -2,18 +2,74 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tasmania Welcome</title>
-    <link>http://localhost:1313/hellotas/</link>
+    <link>//:1313/</link>
     <description>Recent content on Tasmania Welcome</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 08 Oct 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/hellotas/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="//:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello Tasmania</title>
-      <link>http://localhost:1313/hellotas/posts/hello/</link>
+      <link>//:1313/posts/hello/</link>
       <pubDate>Thu, 08 Oct 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/hellotas/posts/hello/</guid>
+      <guid>//:1313/posts/hello/</guid>
       <description>&lt;p&gt;This is my first page. Welcome to the Tasmania Welcome Platform.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Industry Visit 2025</title>
+      <link>//:1313/events/industry-visit-2025/</link>
+      <pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/industry-visit-2025/</guid>
+      <description>Students visited local ICT companies in person.</description>
+    </item>
+    <item>
+      <title>ICT Careers Night 2025</title>
+      <link>//:1313/events/ict-careers-night-2025/</link>
+      <pubDate>Sat, 25 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/ict-careers-night-2025/</guid>
+      <description>Alumni and industry guests shared career paths.</description>
+    </item>
+    <item>
+      <title>CyberSecurity 2025 Melbourne</title>
+      <link>//:1313/events/cybersecurity-2025-melbourne/</link>
+      <pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/cybersecurity-2025-melbourne/</guid>
+      <description>Industry conference for cyber security students.</description>
+    </item>
+    <item>
+      <title>ICT Project Showcase 2025</title>
+      <link>//:1313/events/ict-project-showcase-2025/</link>
+      <pubDate>Sat, 20 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/ict-project-showcase-2025/</guid>
+      <description>Students presented real projects to industry guests.</description>
+    </item>
+    <item>
+      <title>TasICT Festival 2025</title>
+      <link>//:1313/events/tasict-festival-2025/</link>
+      <pubDate>Wed, 10 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/tasict-festival-2025/</guid>
+      <description>Tasmania&amp;rsquo;s biggest ICT industry festival.</description>
+    </item>
+    <item>
+      <title>School of ICT Expo 2025</title>
+      <link>//:1313/events/school-of-ict-expo-2025/</link>
+      <pubDate>Fri, 15 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/school-of-ict-expo-2025/</guid>
+      <description>Annual expo connecting students with industry partners.</description>
+    </item>
+    <item>
+      <title>GDG Hobart Meetup 2025</title>
+      <link>//:1313/events/gdg-hobart-meetup-2025/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/gdg-hobart-meetup-2025/</guid>
+      <description>Google Developer Group talks and open networking.</description>
+    </item>
+    <item>
+      <title>AV Project Lab Open Day 2025</title>
+      <link>//:1313/events/av-project-lab-open-day-2025/</link>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/events/av-project-lab-open-day-2025/</guid>
+      <description>FSAE Driverless, live motorsport website, real projects.</description>
     </item>
   </channel>
 </rss>

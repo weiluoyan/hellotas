@@ -2,10 +2,53 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Tasmania Welcome</title>
-    <link>http://localhost:1313/hellotas/tags/</link>
+    <link>//:1313/tags/</link>
     <description>Recent content in Tags on Tasmania Welcome</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="http://localhost:1313/hellotas/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="//:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Annual</title>
+      <link>//:1313/tags/annual/</link>
+      <pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/tags/annual/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Networking</title>
+      <link>//:1313/tags/networking/</link>
+      <pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/tags/networking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Career</title>
+      <link>//:1313/tags/career/</link>
+      <pubDate>Sat, 25 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/tags/career/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>One-Off</title>
+      <link>//:1313/tags/one-off/</link>
+      <pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/tags/one-off/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tech Talk</title>
+      <link>//:1313/tags/tech-talk/</link>
+      <pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/tags/tech-talk/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hands-On</title>
+      <link>//:1313/tags/hands-on/</link>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>//:1313/tags/hands-on/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

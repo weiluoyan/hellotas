@@ -1,0 +1,42 @@
+{{ define "main" }}
+<div class="events-page">
+
+  <section class="events-hero">
+    <h1>Past Events &amp; Student Voices</h1>
+    <p class="events-sub">A year-by-year record of ICT student life in Tasmania — with real words from real students.</p>
+    <p class="events-note">For staff: share this link with new students to show what happened before.</p>
+    <p class="events-note">For students: see what events look like, and read what people like you said afterwards.</p>
+  </section>
+
+  <section class="events-year">
+    <h2>2025</h2>
+    <p class="events-stats">8 events · 480+ students · 40+ industry partners · 4 recurring</p>
+
+    <div class="events-grid">
+      {{ range .Pages.ByDate }}
+      <article class="event-card">
+        <div class="event-thumb">Event photo</div>
+        <div class="event-body">
+          <div class="event-tags">
+            <span class="tag tag-type">{{ .Params.event_type }}</span>
+            {{ range .Params.tags }}<span class="tag tag-normal">{{ . }}</span>{{ end }}
+            {{ if eq .Params.cost "Free" }}<span class="tag tag-free">Free</span>{{ end }}
+            {{ if eq .Params.cost "GPA requirement" }}<span class="tag tag-gpa">GPA required</span>{{ end }}
+          </div>
+          <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+          <p class="event-meta">{{ .Params.location }} · {{ .Params.event_time }}</p>
+          <p class="event-summary">{{ .Params.summary }}</p>
+          <p class="event-outcome">{{ .Params.outcome }}</p>
+          <div class="student-voice">
+            <span class="linkedin-tag">in Student voice</span>
+            <p>"{{ .Params.student_voice }}"</p>
+            <p class="voice-role">— {{ .Params.student_role }}</p>
+          </div>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </section>
+
+</div>
+{{ end }}

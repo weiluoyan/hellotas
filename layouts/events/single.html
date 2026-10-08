@@ -1,0 +1,31 @@
+{{ define "main" }}
+<article class="event-detail">
+  <a href="/events/" class="back-link">← Back to all events</a>
+
+  <h1>{{ .Title }}</h1>
+  <p class="event-detail-meta">{{ .Params.location }} · {{ .Params.event_time }}</p>
+
+  <div class="event-tags">
+    <span class="tag tag-type">{{ .Params.event_type }}</span>
+    {{ range .Params.tags }}<span class="tag tag-normal">{{ . }}</span>{{ end }}
+    {{ if eq .Params.cost "Free" }}<span class="tag tag-free">Free</span>{{ end }}
+    {{ if eq .Params.cost "GPA requirement" }}<span class="tag tag-gpa">GPA required</span>{{ end }}
+  </div>
+
+  <div class="event-detail-photo">Event photo</div>
+
+  <div class="event-detail-content">
+    {{ .Content }}
+  </div>
+
+  <div class="event-detail-outcome">
+    <strong>Outcome:</strong> {{ .Params.outcome }}
+  </div>
+
+  <div class="student-voice">
+    <span class="linkedin-tag">in Student voice</span>
+    <p>"{{ .Params.student_voice }}"</p>
+    <p class="voice-role">— {{ .Params.student_role }}</p>
+  </div>
+</article>
+{{ end }}

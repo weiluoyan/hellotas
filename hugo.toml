@@ -11,3 +11,13 @@ theme = "PaperMod"
 [params.homeInfoParams]
   Title = "Tasmania Welcome"
   Content = "From Step 1 to the person you want to become."
+
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+
+[[menu.main]]
+  name = "Past Events"
+  url = "/events/"
+  weight = 2
