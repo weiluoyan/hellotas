@@ -1,0 +1,13 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Tasmania Welcome"
+theme = "PaperMod"
+
+[params]
+  description = "A step-by-step journey for international ICT students in Tasmania."
+  author = "Luoyan Wei"
+  defaultTheme = "light"
+
+[params.homeInfoParams]
+  Title = "Tasmania Welcome"
+  Content = "From Step 1 to the person you want to become."
