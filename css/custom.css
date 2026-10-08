@@ -1,0 +1,195 @@
+:root {
+  --brand: #C8102E;
+  --brand-light: #FFF5F5;
+  --text-dark: #1E293B;
+  --text-mid: #64748B;
+  --green: #2E7D32;
+}
+
+.events-page, .event-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.events-hero h1 {
+  font-size: 44px;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.events-sub {
+  font-size: 18px;
+  color: var(--text-mid);
+  margin-bottom: 12px;
+}
+
+.events-note {
+  font-size: 15px;
+  color: var(--text-mid);
+  margin-bottom: 4px;
+}
+
+.events-year h2 {
+  font-size: 32px;
+  color: var(--brand);
+  margin: 48px 0 8px;
+}
+
+.events-stats {
+  font-size: 14px;
+  color: var(--text-mid);
+  margin-bottom: 32px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .events-grid { grid-template-columns: 1fr; }
+  .events-hero h1 { font-size: 30px; }
+}
+
+.event-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(200, 16, 46, 0.08);
+}
+
+.event-thumb {
+  height: 200px;
+  background: var(--brand-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand);
+  font-size: 14px;
+}
+
+.event-body { padding: 24px; }
+
+.event-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tag-type { background: var(--brand); color: #fff; }
+.tag-normal { background: var(--brand-light); color: var(--brand); }
+.tag-free { background: #E8F5E9; color: var(--green); }
+.tag-gpa { background: #FFF3E0; color: #E65100; }
+
+.event-body h3 {
+  font-size: 22px;
+  margin: 0 0 8px;
+  color: var(--text-dark);
+}
+
+.event-body h3 a { color: inherit; text-decoration: none; }
+.event-body h3 a:hover { color: var(--brand); }
+
+.event-meta {
+  font-size: 14px;
+  color: var(--text-mid);
+  margin: 0 0 10px;
+}
+
+.event-summary {
+  font-size: 15px;
+  color: var(--text-dark);
+  margin: 0 0 8px;
+}
+
+.event-outcome {
+  font-size: 13px;
+  color: var(--green);
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+
+.student-voice {
+  background: #F8FAFC;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.linkedin-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0A66C2;
+}
+
+.student-voice p {
+  font-size: 14px;
+  color: var(--text-dark);
+  margin: 8px 0 0;
+  font-style: italic;
+}
+
+.voice-role {
+  font-size: 12px !important;
+  color: var(--text-mid) !important;
+  font-style: normal !important;
+  margin-top: 8px !important;
+}
+
+.back-link {
+  font-size: 14px;
+  color: var(--text-mid);
+  text-decoration: none;
+}
+
+.event-detail h1 {
+  font-size: 38px;
+  color: var(--text-dark);
+  margin: 16px 0;
+}
+
+.event-detail-meta {
+  font-size: 16px;
+  color: var(--text-mid);
+  margin-bottom: 20px;
+}
+
+.event-detail-photo {
+  height: 320px;
+  background: var(--brand-light);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand);
+  font-size: 14px;
+  margin: 24px 0;
+}
+
+.event-detail-outcome {
+  background: #E8F5E9;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin: 24px 0;
+  font-size: 15px;
+  color: #1B5E20;
+}
