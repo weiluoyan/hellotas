@@ -34,7 +34,7 @@
     <article class="event-card">
 <div class="event-thumb">
   {{ if .Params.image }}
-    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
+  <img src="{{ strings.TrimPrefix "/" .Params.image | relURL }}" alt="{{ .Title }}">
   {{ else }}
     <div class="thumb-placeholder">Event photo<br><span class="thumb-sub">{{ .Title }}</span></div>
   {{ end }}

@@ -12,7 +12,13 @@
     {{ if eq .Params.cost "GPA requirement" }}<span class="tag tag-gpa">GPA REQUIRED</span>{{ end }}
   </div>
 
-  <div class="event-detail-photo">Event photo</div>
+  <div class="event-detail-photo">
+    {{ if .Params.image }}
+      <img src="{{ strings.TrimPrefix "/" .Params.image | relURL }}" alt="{{ .Title }}">
+    {{ else }}
+      Event photo
+    {{ end }}
+  </div>
 
   <div class="event-detail-content">
     {{ .Content }}
