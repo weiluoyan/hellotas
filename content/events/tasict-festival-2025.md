@@ -1,6 +1,7 @@
 ---
 title: "TasICT Festival 2025"
 date: 2025-09-10
+weight: 6
 year: 2025
 event_type: "Festival"
 tags: ["Networking", "Annual"]

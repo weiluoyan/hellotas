@@ -1,6 +1,7 @@
 ---
 title: "Industry Visit 2025"
 date: 2025-11-12
+weight: 1
 year: 2025
 event_type: "Industry Visit"
 tags: ["Networking", "Annual"]

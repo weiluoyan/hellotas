@@ -1,6 +1,7 @@
 ---
-title: "CyberSecurity 2025 Melbourne"
+title: "Cybersecurity Conference 2025 Melbourne"
 date: 2025-10-05
+weight: 2
 year: 2025
 event_type: "Conference"
 tags: ["Career", "One-off"]

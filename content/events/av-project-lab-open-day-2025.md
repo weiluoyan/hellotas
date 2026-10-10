@@ -1,6 +1,7 @@
 ---
 title: "AV Project Lab Open Day 2025"
 date: 2025-06-15
+weight: 9
 year: 2025
 event_type: "Project"
 tags: ["Hands-on", "Annual"]

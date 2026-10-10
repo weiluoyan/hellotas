@@ -1,6 +1,7 @@
 ---
 title: "ICT Project Showcase 2025"
 date: 2025-09-20
+weight: 3
 year: 2025
 event_type: "Showcase"
 tags: ["Career"]

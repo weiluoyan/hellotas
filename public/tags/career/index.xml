@@ -14,14 +14,7 @@
 		
 			<atom:link href="//:1313/tags/career/index.xml" rel="self" type="application/rss+xml" />
 			<item>
-				<title>ICT Careers Night 2025</title>
-				<link>//:1313/events/ict-careers-night-2025/</link>
-				<pubDate>Sat, 25 Oct 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/events/ict-careers-night-2025/</guid>
-				<description>Alumni and industry guests shared career paths.</description>
-			</item>
-			<item>
-				<title>CyberSecurity 2025 Melbourne</title>
+				<title>Cybersecurity Conference 2025 Melbourne</title>
 				<link>//:1313/events/cybersecurity-2025-melbourne/</link>
 				<pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate>
 				<guid>//:1313/events/cybersecurity-2025-melbourne/</guid>
@@ -33,6 +26,20 @@
 				<pubDate>Sat, 20 Sep 2025 00:00:00 +0000</pubDate>
 				<guid>//:1313/events/ict-project-showcase-2025/</guid>
 				<description>Students presented real projects to industry guests.</description>
+			</item>
+			<item>
+				<title>/dev/world 2025 Melbourne</title>
+				<link>//:1313/events/devworld-2025-melbourne/</link>
+				<pubDate>Fri, 15 Aug 2025 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/devworld-2025-melbourne/</guid>
+				<description>Students represented UTAS at /dev/world 2025 in Melbourne, presenting an AFL app built across Android, iOS, and Flutter.</description>
+			</item>
+			<item>
+				<title>ICT Careers Night 2025</title>
+				<link>//:1313/events/ict-careers-night-2025/</link>
+				<pubDate>Sat, 25 Oct 2025 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/ict-careers-night-2025/</guid>
+				<description>Alumni and industry guests shared career paths.</description>
 			</item>
 			<item>
 				<title>School of ICT Expo 2025</title>

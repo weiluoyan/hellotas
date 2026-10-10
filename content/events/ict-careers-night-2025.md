@@ -1,6 +1,7 @@
 ---
 title: "ICT Careers Night 2025"
 date: 2025-10-25
+weight: 5
 year: 2025
 event_type: "Career Night"
 tags: ["Career", "Networking"]

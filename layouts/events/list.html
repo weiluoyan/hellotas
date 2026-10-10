@@ -23,14 +23,14 @@
   <div class="year-tabs">
     <span class="year-tab active">2025</span>
     <span class="year-tab">2026</span>
-    <span class="year-stats">8 events · 480+ students · 40+ industry partners · 4 recurring</span>
+    <span class="year-stats">9 events · 480+ students · 40+ industry partners · 4 recurring</span>
   </div>
 
   <h2 class="year-heading">2025</h2>
   <div class="year-divider"></div>
 
   <div class="events-grid">
-    {{ range .Pages.ByDate.Reverse }}
+    {{ range .Pages.ByWeight }}
     <article class="event-card">
 <div class="event-thumb">
   {{ if .Params.image }}

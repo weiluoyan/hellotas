@@ -1,6 +1,7 @@
 ---
 title: "GDG Hobart Meetup 2025"
 date: 2025-07-20
+weight: 8
 year: 2025
 event_type: "Community"
 tags: ["Tech Talk"]

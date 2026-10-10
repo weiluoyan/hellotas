@@ -1,6 +1,7 @@
 ---
 title: "School of ICT Expo 2025"
 date: 2025-08-15
+weight: 7
 year: 2025
 event_type: "Expo"
 tags: ["Career", "Annual"]
