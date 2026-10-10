@@ -5,6 +5,7 @@ weight: 5
 year: 2025
 event_type: "Career Night"
 tags: ["Career", "Networking"]
+image: "/images/events/2025ictcaree.jpg"
 location: "Hobart"
 event_time: "5:30 PM – 8:00 PM"
 cost: "Free"

@@ -27,19 +27,5 @@
 				<guid>//:1313/events/tasict-festival-2025/</guid>
 				<description>Tasmania&amp;rsquo;s biggest ICT industry festival.</description>
 			</item>
-			<item>
-				<title>School of ICT Expo 2025</title>
-				<link>//:1313/events/school-of-ict-expo-2025/</link>
-				<pubDate>Fri, 15 Aug 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/events/school-of-ict-expo-2025/</guid>
-				<description>Annual expo connecting students with industry partners.</description>
-			</item>
-			<item>
-				<title>AV Project Lab Open Day 2025</title>
-				<link>//:1313/events/av-project-lab-open-day-2025/</link>
-				<pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/events/av-project-lab-open-day-2025/</guid>
-				<description>FSAE Driverless, live motorsport website, real projects.</description>
-			</item>
 	</channel>
 </rss>

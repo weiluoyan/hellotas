@@ -49,17 +49,59 @@
 				<description></description>
 			</item>
 			<item>
-				<title>Tech Talk</title>
-				<link>//:1313/tags/tech-talk/</link>
-				<pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/tags/tech-talk/</guid>
+				<title>AI</title>
+				<link>//:1313/tags/ai/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/ai/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Hands-On</title>
-				<link>//:1313/tags/hands-on/</link>
-				<pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/tags/hands-on/</guid>
+				<title>Cybersecurity</title>
+				<link>//:1313/tags/cybersecurity/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/cybersecurity/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Google Developer Group</title>
+				<link>//:1313/tags/google-developer-group/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/google-developer-group/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>ICT</title>
+				<link>//:1313/tags/ict/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/ict/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Industry</title>
+				<link>//:1313/tags/industry/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/industry/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>IT Jobs</title>
+				<link>//:1313/tags/it-jobs/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/it-jobs/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Projects</title>
+				<link>//:1313/tags/projects/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/projects/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>TasICT</title>
+				<link>//:1313/tags/tasict/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/tags/tasict/</guid>
 				<description></description>
 			</item>
 	</channel>

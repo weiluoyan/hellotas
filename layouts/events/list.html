@@ -20,17 +20,23 @@
 
 
 <section class="container">
+  {{ $years := slice 2025 2026 }}
   <div class="year-tabs">
-    <span class="year-tab active">2025</span>
-    <span class="year-tab">2026</span>
-    <span class="year-stats">9 events · 480+ students · 40+ industry partners · 4 recurring</span>
+    {{ range $years }}
+    <a class="year-tab{{ if eq . 2025 }} active{{ end }}" href="#year-{{ . }}">{{ . }}</a>
+    {{ end }}
+    <span class="year-stats">{{ len .Pages }} events · 2025–2026</span>
   </div>
 
-  <h2 class="year-heading">2025</h2>
+  {{ range $years }}
+  {{ $year := . }}
+  <h2 class="year-heading" id="year-{{ $year }}">{{ $year }}</h2>
   <div class="year-divider"></div>
 
   <div class="events-grid">
-    {{ range .Pages.ByWeight }}
+    {{ range $.Pages.ByWeight }}
+    {{ if eq .Params.year $year }}
+    {{ $event := . }}
     <article class="event-card">
 <div class="event-thumb">
   {{ if .Params.image }}
@@ -48,21 +54,27 @@
           {{ if eq .Params.cost "GPA requirement" }}<span class="tag tag-gpa">GPA REQUIRED</span>{{ end }}
         </div>
         <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-        <p class="event-meta">{{ .Params.location }} · {{ .Params.event_time }}</p>
-        <p class="event-summary">{{ .Params.summary }}</p>
-        <p class="event-outcome">{{ .Params.outcome }}</p>
+        {{ if or .Params.location .Params.event_time }}
+        <p class="event-meta">{{ with .Params.location }}{{ . }}{{ end }}{{ if and .Params.location .Params.event_time }} · {{ end }}{{ with .Params.event_time }}{{ . }}{{ end }}</p>
+        {{ end }}
+        {{ with .Params.summary }}<p class="event-summary">{{ . }}</p>{{ end }}
+        {{ with .Params.outcome }}<p class="event-outcome">{{ . }}</p>{{ end }}
+        {{ with .Params.student_voice }}
         <div class="student-voice">
           <div class="voice-head">
             <span class="linkedin-icon">in</span>
             <span class="linkedin-label">Student voice</span>
           </div>
-          <p class="voice-quote">"{{ .Params.student_voice }}"</p>
-          <p class="voice-role">— {{ .Params.student_role }}</p>
+          <p class="voice-quote">"{{ . }}"</p>
+          <p class="voice-role">— {{ $event.Params.student_role }}</p>
         </div>
+        {{ end }}
       </div>
     </article>
     {{ end }}
+    {{ end }}
   </div>
+  {{ end }}
 </section>
 
 <section class="container">

@@ -3,10 +3,12 @@
   <a href="/events/" class="back-link">← Back to all events</a>
 
   <h1>{{ .Title }}</h1>
-  <p class="event-detail-meta">{{ .Params.location }} · {{ .Params.event_time }}</p>
+  {{ if or .Params.location .Params.event_time }}
+  <p class="event-detail-meta">{{ with .Params.location }}{{ . }}{{ end }}{{ if and .Params.location .Params.event_time }} · {{ end }}{{ with .Params.event_time }}{{ . }}{{ end }}</p>
+  {{ end }}
 
   <div class="event-tags">
-    <span class="tag tag-type">{{ .Params.event_type }}</span>
+    {{ with .Params.event_type }}<span class="tag tag-type">{{ . }}</span>{{ end }}
     {{ range .Params.tags }}<span class="tag tag-normal">{{ . }}</span>{{ end }}
     {{ if eq .Params.cost "Free" }}<span class="tag tag-free">FREE</span>{{ end }}
     {{ if eq .Params.cost "GPA requirement" }}<span class="tag tag-gpa">GPA REQUIRED</span>{{ end }}
@@ -24,17 +26,21 @@
     {{ .Content }}
   </div>
 
+  {{ with .Params.outcome }}
   <div class="event-detail-outcome">
-    <strong>Outcome:</strong> {{ .Params.outcome }}
+    <strong>Outcome:</strong> {{ . }}
   </div>
+  {{ end }}
 
+  {{ with .Params.student_voice }}
   <div class="student-voice">
     <div class="voice-head">
       <span class="linkedin-icon">in</span>
       <span class="linkedin-label">Student voice</span>
     </div>
-    <p class="voice-quote">"{{ .Params.student_voice }}"</p>
-    <p class="voice-role">— {{ .Params.student_role }}</p>
+    <p class="voice-quote">"{{ . }}"</p>
+    <p class="voice-role">— {{ $.Params.student_role }}</p>
   </div>
+  {{ end }}
 </article>
 {{ end }}

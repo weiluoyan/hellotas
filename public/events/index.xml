@@ -21,11 +21,25 @@
 				<description>Students visited local ICT companies in person.</description>
 			</item>
 			<item>
+				<title>Industry Visit 2026</title>
+				<link>//:1313/events/industry-visit-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/industry-visit-2026/</guid>
+				<description>Industry Visit 2026.</description>
+			</item>
+			<item>
 				<title>Cybersecurity Conference 2025 Melbourne</title>
 				<link>//:1313/events/cybersecurity-2025-melbourne/</link>
 				<pubDate>Sun, 05 Oct 2025 00:00:00 +0000</pubDate>
 				<guid>//:1313/events/cybersecurity-2025-melbourne/</guid>
 				<description>Industry conference for cyber security students.</description>
+			</item>
+			<item>
+				<title>TasICT AISA Cyber Conference 2026</title>
+				<link>//:1313/events/tasict-aisa-cyber-conference-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/tasict-aisa-cyber-conference-2026/</guid>
+				<description>TasICT AISA Cyber Conference 2026.</description>
 			</item>
 			<item>
 				<title>ICT Project Showcase 2025</title>
@@ -35,11 +49,25 @@
 				<description>Students presented real projects to industry guests.</description>
 			</item>
 			<item>
+				<title>Anatomy of an AI Factory — GDG 2026</title>
+				<link>//:1313/events/gdg-anatomy-ai-factory-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/gdg-anatomy-ai-factory-2026/</guid>
+				<description>A Google Developer Group event featuring “Anatomy of an AI Factory”.</description>
+			</item>
+			<item>
 				<title>/dev/world 2025 Melbourne</title>
 				<link>//:1313/events/devworld-2025-melbourne/</link>
 				<pubDate>Fri, 15 Aug 2025 00:00:00 +0000</pubDate>
 				<guid>//:1313/events/devworld-2025-melbourne/</guid>
 				<description>Students represented UTAS at /dev/world 2025 in Melbourne, presenting an AFL app built across Android, iOS, and Flutter.</description>
+			</item>
+			<item>
+				<title>JBS/HUON Company Visit 2026</title>
+				<link>//:1313/events/jbs-huon-company-visit-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/jbs-huon-company-visit-2026/</guid>
+				<description>A visit to JBS/HUON.</description>
 			</item>
 			<item>
 				<title>ICT Careers Night 2025</title>
@@ -49,6 +77,13 @@
 				<description>Alumni and industry guests shared career paths.</description>
 			</item>
 			<item>
+				<title>Mayo Talk: IT Jobs 2026</title>
+				<link>//:1313/events/mayo-it-jobs-talk-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/mayo-it-jobs-talk-2026/</guid>
+				<description>A Mayo talk about IT jobs.</description>
+			</item>
+			<item>
 				<title>TasICT Festival 2025</title>
 				<link>//:1313/events/tasict-festival-2025/</link>
 				<pubDate>Wed, 10 Sep 2025 00:00:00 +0000</pubDate>
@@ -56,25 +91,25 @@
 				<description>Tasmania&amp;rsquo;s biggest ICT industry festival.</description>
 			</item>
 			<item>
-				<title>School of ICT Expo 2025</title>
-				<link>//:1313/events/school-of-ict-expo-2025/</link>
-				<pubDate>Fri, 15 Aug 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/events/school-of-ict-expo-2025/</guid>
-				<description>Annual expo connecting students with industry partners.</description>
+				<title>ICT Showcase 2026</title>
+				<link>//:1313/events/ict-showcase-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/ict-showcase-2026/</guid>
+				<description>ICT Showcase 2026.</description>
 			</item>
 			<item>
-				<title>GDG Hobart Meetup 2025</title>
-				<link>//:1313/events/gdg-hobart-meetup-2025/</link>
-				<pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/events/gdg-hobart-meetup-2025/</guid>
-				<description>Google Developer Group talks and open networking.</description>
+				<title>ICT Awards 2026</title>
+				<link>//:1313/events/ict-awards-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/ict-awards-2026/</guid>
+				<description>ICT Awards 2026.</description>
 			</item>
 			<item>
-				<title>AV Project Lab Open Day 2025</title>
-				<link>//:1313/events/av-project-lab-open-day-2025/</link>
-				<pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-				<guid>//:1313/events/av-project-lab-open-day-2025/</guid>
-				<description>FSAE Driverless, live motorsport website, real projects.</description>
+				<title>TasICT Festival 2026</title>
+				<link>//:1313/events/tasict-festival-2026/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>//:1313/events/tasict-festival-2026/</guid>
+				<description>TasICT Festival 2026.</description>
 			</item>
 	</channel>
 </rss>
