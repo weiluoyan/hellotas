@@ -2,7 +2,7 @@ steps:
   - id: 1
     image: images/home/step-1-arrival.jpg
     anchor: step-1
-    ctaPath: journey/
+    ctaPath: journey/step-1/
   - id: 2
     image: images/home/step-2-language.jpg
     anchor: step-2

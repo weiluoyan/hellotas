@@ -54,6 +54,65 @@ linkedInScreenshot: "LinkedIn截图"
 # Dates and meta
 thumbPlaceholder: "活动照片"
 
+# Journey — 第一步（安顿生活）
+journeyBackToJourney: "← 成长之路"
+journeyStep1Eyebrow: "成长之路 · 第一步"
+journeyStep1Title: "在这里开始新生活"
+journeyStep1Lead: "先解决最基本的生存问题。稳定的基础，是一切可能的开始。"
+
+journeyStep1Priority1Title: "生存收入"
+journeyStep1Priority1Tag: "兼职工作"
+journeyStep1Priority1Text: "学习期间需要收入来维持生活，请尽早开始寻找兼职。"
+journeyStep1Priority1Sub: "在ATO官网免费申请税号（TFN），准备一页纸的简单简历，并关注UTAS职业中心（Careers portal）和招聘信息。求职前先在VEVO确认签证的工作时长限制，<strong>避免接受低于法定最低工资的现金工</strong>——这可能危及你的签证。"
+journeyStep1Priority1ImageAlt: "学生在霍巴特咖啡馆做兼职"
+
+journeyStep1Priority2Title: "住宿"
+journeyStep1Priority2Tag: "安家"
+journeyStep1Priority2Text: "尽早确定住处。UTAS宿舍常常很快满员。"
+journeyStep1Priority2Sub: "优先申请UTAS宿舍，再用 <strong>Flatmates</strong> 或 <strong>Facebook Marketplace</strong> 寻找合租。付款前务必实地或视频看房——针对海外预订学生的租房骗局一直存在，房源再完美，没看房也不要付定金。"
+journeyStep1Priority2ImageAlt: "霍巴特带花园和山景的合租房屋"
+
+journeyStep1BasicsTitle: "日常生活基础"
+
+journeyStep1BasicEatTitle: "饮食与采购"
+journeyStep1Eat1: "Coles / Woolworths 超市"
+journeyStep1Eat2: "UTAS Food Hub — 免费食品补给"
+journeyStep1Eat3: "North Hobart 的亚洲超市"
+journeyStep1EatImageAlt: "新鲜食材——蔬菜、水果和面包"
+
+journeyStep1BasicTransportTitle: "出行与交通"
+journeyStep1Transport1: "Metro Tasmania 公交 + 实时到站App"
+journeyStep1Transport2: "Greencard — 学生优惠票价"
+journeyStep1Transport3: "乘车随身携带学生证"
+journeyStep1TransportImageAlt: "公交站牌旁等候的公交车与乘客"
+
+journeyStep1BasicConnectTitle: "通讯与银行"
+journeyStep1Connect1: "预付费手机卡 — Telstra、Optus、Vodafone 或 Amaysim 等平价品牌"
+journeyStep1Connect2: "开立 CommBank / ANZ 学生账户（可先在线预约）"
+journeyStep1Connect3: "有稳定收入前先用 prepaid 套餐"
+journeyStep1ConnectImageAlt: "装有SIM卡的手机和银行卡"
+
+journeyStep1BasicSafetyTitle: "安全第一"
+journeyStep1Safety1: "紧急求助：000（警察、消防、救护车）"
+journeyStep1Safety2: "UTAS SafeZone App — 校园安保"
+journeyStep1Safety3: "非紧急警务求助：131 444"
+journeyStep1SafetyImageAlt: "象征安全防护的手机与盾牌"
+
+journeyStep1ChecklistTitle: "抵达清单"
+journeyStep1ChecklistLead: "全部勾完，就说明你准备好进入第二步了。"
+journeyStep1Checklist1: "我已有安全的住处（或临时落脚点）。"
+journeyStep1Checklist2: "我已申请税号（TFN）。"
+journeyStep1Checklist3: "手机卡、银行账户和交通都已安排妥当。"
+journeyStep1Checklist4: "我已在VEVO核对签证条件（工作时长、出勤、OSHC）。"
+journeyStep1Checklist5: "我知道紧急情况该求助谁（000 和校园安保）。"
+
+journeyStep1MissedTitle: "错过了迎新周？"
+journeyStep1MissedText: "没关系——很多同学都是晚些才到的。先完成上面的抵达清单，社团、图书馆导览和校园生活可以在第三步补上。"
+
+journeyStep1NextTitle: "准备好进入下一步了吗？"
+journeyStep1NextText: "基本生活安顿好之后，就该开始建立说英语的自信了。"
+journeyStep1NextCta: "前往第二步 →"
+
 # Homepage — hero
 homeHeroTitle: "从第一步到"
 homeHeroTitleHighlight: "你想成为的那个人。"

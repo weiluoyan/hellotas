@@ -1,0 +1,51 @@
+step1:
+  priorities:
+    - image: images/journey/step-1/step-1-survival-income.jpg
+      altKey: journeyStep1Priority1ImageAlt
+      titleKey: journeyStep1Priority1Title
+      tagKey: journeyStep1Priority1Tag
+      tagClass: tag-free
+      textKey: journeyStep1Priority1Text
+      subKey: journeyStep1Priority1Sub
+    - image: images/journey/step-1/step-1-accommodation.jpg
+      altKey: journeyStep1Priority2ImageAlt
+      titleKey: journeyStep1Priority2Title
+      tagKey: journeyStep1Priority2Tag
+      tagClass: tag-normal
+      textKey: journeyStep1Priority2Text
+      subKey: journeyStep1Priority2Sub
+  basics:
+    - image: images/journey/step-1/step-1-eat.jpg
+      altKey: journeyStep1EatImageAlt
+      titleKey: journeyStep1BasicEatTitle
+      itemKeys:
+        - journeyStep1Eat1
+        - journeyStep1Eat2
+        - journeyStep1Eat3
+    - image: images/journey/step-1/step-1-transport.jpg
+      altKey: journeyStep1TransportImageAlt
+      titleKey: journeyStep1BasicTransportTitle
+      itemKeys:
+        - journeyStep1Transport1
+        - journeyStep1Transport2
+        - journeyStep1Transport3
+    - image: images/journey/step-1/step-1-connect.jpg
+      altKey: journeyStep1ConnectImageAlt
+      titleKey: journeyStep1BasicConnectTitle
+      itemKeys:
+        - journeyStep1Connect1
+        - journeyStep1Connect2
+        - journeyStep1Connect3
+    - image: images/journey/step-1/step-1-safety.jpg
+      altKey: journeyStep1SafetyImageAlt
+      titleKey: journeyStep1BasicSafetyTitle
+      itemKeys:
+        - journeyStep1Safety1
+        - journeyStep1Safety2
+        - journeyStep1Safety3
+  checklist:
+    - journeyStep1Checklist1
+    - journeyStep1Checklist2
+    - journeyStep1Checklist3
+    - journeyStep1Checklist4
+    - journeyStep1Checklist5

@@ -1,0 +1,80 @@
+{{ define "main" }}
+<div class="page-journey-step" id="step-1">
+  <section class="journey-hero">
+    <div class="container">
+      <a class="journey-crumb" href="{{ "journey/" | relLangURL }}">{{ i18n "journeyBackToJourney" }}</a>
+      <p class="journey-eyebrow">{{ i18n "journeyStep1Eyebrow" }}</p>
+      <h1>{{ i18n "journeyStep1Title" }}</h1>
+      <p class="journey-hero-sub">{{ i18n "journeyStep1Lead" }}</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="journey-main">
+      <section class="journey-priorities">
+        {{ range site.Data.journey.step1.priorities }}
+        <article class="journey-priority-card">
+          <div class="journey-priority-media">
+            <img src="{{ .image | relURL }}" alt="{{ i18n .altKey }}" width="140" height="140">
+          </div>
+          <div class="journey-priority-body">
+            <div class="journey-priority-head">
+              <h2>{{ i18n .titleKey }}</h2>
+              <span class="tag {{ .tagClass }}">{{ i18n .tagKey }}</span>
+            </div>
+            <p class="journey-priority-text">{{ i18n .textKey }}</p>
+            <p class="journey-priority-sub">{{ i18n .subKey | safeHTML }}</p>
+          </div>
+        </article>
+        {{ end }}
+      </section>
+
+      <section class="journey-basics-section">
+        <h2 class="journey-basics-title">{{ i18n "journeyStep1BasicsTitle" }}</h2>
+        <div class="section-divider"></div>
+        <div class="journey-basics-grid">
+          {{ range site.Data.journey.step1.basics }}
+          <article class="journey-basic-card">
+            <div class="journey-basic-head">
+              <div class="journey-basic-icon">
+                <img src="{{ .image | relURL }}" alt="{{ i18n .altKey }}" loading="lazy" width="60" height="60">
+              </div>
+              <h3>{{ i18n .titleKey }}</h3>
+            </div>
+            <ul class="journey-basic-list">
+              {{ range .itemKeys }}
+              <li>{{ i18n . | safeHTML }}</li>
+              {{ end }}
+            </ul>
+          </article>
+          {{ end }}
+        </div>
+      </section>
+
+      <section class="journey-checklist">
+        <h2>{{ i18n "journeyStep1ChecklistTitle" }}</h2>
+        <p class="journey-checklist-lead">{{ i18n "journeyStep1ChecklistLead" }}</p>
+        {{ range site.Data.journey.step1.checklist }}
+        <label class="journey-check-item">
+          <input type="checkbox">
+          <span>{{ i18n . }}</span>
+        </label>
+        {{ end }}
+      </section>
+
+      <aside class="journey-note">
+        <h3>{{ i18n "journeyStep1MissedTitle" }}</h3>
+        <p>{{ i18n "journeyStep1MissedText" | safeHTML }}</p>
+      </aside>
+
+      <section class="journey-next">
+        <div class="journey-next-copy">
+          <h3>{{ i18n "journeyStep1NextTitle" }}</h3>
+          <p>{{ i18n "journeyStep1NextText" }}</p>
+        </div>
+        <a href="{{ "journey/" | relLangURL }}#step-2" class="btn-primary journey-next-btn">{{ i18n "journeyStep1NextCta" }}</a>
+      </section>
+    </div>
+  </div>
+</div>
+{{ end }}

@@ -54,6 +54,65 @@ linkedInScreenshot: "LinkedIn screenshot"
 # Dates and meta
 thumbPlaceholder: "Event photo"
 
+# Journey — Step 1 (arrival)
+journeyBackToJourney: "← Journey"
+journeyStep1Eyebrow: "Journey · Step 1"
+journeyStep1Title: "Start your life here"
+journeyStep1Lead: "Get your survival basics sorted first. A stable foundation makes everything else possible."
+
+journeyStep1Priority1Title: "Survival Income"
+journeyStep1Priority1Tag: "Casual work"
+journeyStep1Priority1Text: "You need money to survive while you study, so start looking for casual work early."
+journeyStep1Priority1Sub: "Apply for a free Tax File Number (TFN) online via the ATO, keep a simple one-page resume, and check the UTAS Careers portal and job boards. Check your visa work-hour limit on VEVO first, and <strong>avoid cash-in-hand jobs below minimum wage</strong> — they can risk your visa."
+journeyStep1Priority1ImageAlt: "Student working a casual café job in Hobart"
+
+journeyStep1Priority2Title: "Accommodation"
+journeyStep1Priority2Tag: "Live"
+journeyStep1Priority2Text: "Secure your place early. UTAS housing fills up fast."
+journeyStep1Priority2Sub: "Apply for UTAS residences first, then use <strong>Flatmates</strong> or <strong>Facebook Marketplace</strong> to find a share house. Always inspect (in person or by video call) before paying anything — rental scams often target students booking from overseas."
+journeyStep1Priority2ImageAlt: "A share house with a garden and mountain backdrop in Hobart"
+
+journeyStep1BasicsTitle: "The Daily Basics"
+
+journeyStep1BasicEatTitle: "Eat & Groceries"
+journeyStep1Eat1: "Coles / Woolworths supermarkets"
+journeyStep1Eat2: "UTAS Food Hub — free groceries"
+journeyStep1Eat3: "Asian grocers in North Hobart"
+journeyStep1EatImageAlt: "Fresh groceries — vegetables, fruit and bread"
+
+journeyStep1BasicTransportTitle: "Move & Transport"
+journeyStep1Transport1: "Metro Tasmania buses + real-time app"
+journeyStep1Transport2: "Greencard — student concession fares"
+journeyStep1Transport3: "Carry your student ID for concessions"
+journeyStep1TransportImageAlt: "City bus at a bus stop with waiting passengers"
+
+journeyStep1BasicConnectTitle: "Connect & Bank"
+journeyStep1Connect1: "Prepaid SIM — Telstra, Optus, Vodafone or budget brands like Amaysim"
+journeyStep1Connect2: "Open a CommBank / ANZ student account (you can start online)"
+journeyStep1Connect3: "Stay on prepaid until you have steady income"
+journeyStep1ConnectImageAlt: "Phone with SIM card and bank card for setting up accounts"
+
+journeyStep1BasicSafetyTitle: "Safety First"
+journeyStep1Safety1: "Emergency: 000 (police, fire, ambulance)"
+journeyStep1Safety2: "UTAS SafeZone app — campus security"
+journeyStep1Safety3: "Non-urgent police assistance: 131 444"
+journeyStep1SafetyImageAlt: "Safety shield and phone for emergency contacts"
+
+journeyStep1ChecklistTitle: "Your Arrival Checklist"
+journeyStep1ChecklistLead: "Tick these off to know you are ready for Step 2."
+journeyStep1Checklist1: "I have secure accommodation (or a temporary place to stay)."
+journeyStep1Checklist2: "I have applied for a Tax File Number (TFN)."
+journeyStep1Checklist3: "I have a SIM card, a bank account, and transport sorted."
+journeyStep1Checklist4: "I have checked my visa conditions on VEVO (work-hour limit, attendance, OSHC)."
+journeyStep1Checklist5: "I know who to call in an emergency (000 and campus security)."
+
+journeyStep1MissedTitle: "Missed Orientation?"
+journeyStep1MissedText: "It's okay — many students arrive late. Focus on the checklist above first. You can catch up on clubs, library tours and campus life in Step 3."
+
+journeyStep1NextTitle: "Ready for the next step?"
+journeyStep1NextText: "Once your basics are sorted, it's time to build your English confidence."
+journeyStep1NextCta: "Go to Step 2 →"
+
 # Homepage — hero
 homeHeroTitle: "From Step 1 to the person"
 homeHeroTitleHighlight: "you want to become."
