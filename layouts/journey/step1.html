@@ -11,11 +11,38 @@
 
   <div class="container">
     <div class="journey-main">
+      <section class="journey-first-steps">
+        <h2 class="journey-basics-title">{{ i18n "journeyStep1FirstTitle" }}</h2>
+        <div class="section-divider"></div>
+        <ol class="journey-first-grid">
+          {{ range $i, $s := site.Data.journey.step1.firstSteps }}
+          <li class="journey-first-card">
+            <span class="journey-first-icon" aria-hidden="true">
+              {{ $s.icon }}
+              <span class="journey-first-num">{{ add $i 1 }}</span>
+            </span>
+            <div>
+              <h3>{{ i18n $s.titleKey }}</h3>
+              <p>{{ i18n $s.textKey }}</p>
+              {{ with $s.links }}
+              <div class="journey-first-links">
+                {{ range . }}
+                {{ $external := strings.HasPrefix .href "http" }}
+                <a href="{{ .href | safeURL }}"{{ if $external }} target="_blank" rel="noopener"{{ end }}>{{ with .labelKey }}{{ i18n . }}{{ end }}{{ .label }} {{ if $external }}↗{{ else }}↓{{ end }}</a>
+                {{ end }}
+              </div>
+              {{ end }}
+            </div>
+          </li>
+          {{ end }}
+        </ol>
+      </section>
+
       <section class="journey-priorities">
         {{ range site.Data.journey.step1.priorities }}
-        <article class="journey-priority-card">
+        <article class="journey-priority-card{{ with .tips }} journey-priority-card--detailed{{ end }}"{{ with .id }} id="{{ . }}"{{ end }}>
           <div class="journey-priority-media">
-            <img src="{{ .image | relURL }}" alt="{{ i18n .altKey }}" width="140" height="140">
+            <img src="{{ .image | relURL }}" alt="{{ i18n .altKey }}" width="140" height="140"{{ with .imagePosition }} style="object-position: {{ . | safeCSS }}"{{ end }}>
           </div>
           <div class="journey-priority-body">
             <div class="journey-priority-head">
@@ -23,7 +50,31 @@
               <span class="tag {{ .tagClass }}">{{ i18n .tagKey }}</span>
             </div>
             <p class="journey-priority-text">{{ i18n .textKey }}</p>
-            <p class="journey-priority-sub">{{ i18n .subKey | safeHTML }}</p>
+            {{ with .subKey }}<p class="journey-priority-sub">{{ i18n . | safeHTML }}</p>{{ end }}
+            {{ with .tips }}
+            <ul class="journey-tip-list">
+              {{ range . }}
+              <li class="journey-tip">
+                <div class="journey-tip-head">
+                  <span class="journey-tip-icon" aria-hidden="true">{{ .icon }}</span>
+                  <h3>{{ i18n .titleKey }}</h3>
+                </div>
+                <p>{{ i18n .textKey | safeHTML }}</p>
+              </li>
+              {{ end }}
+            </ul>
+            {{ end }}
+            {{ if .links }}
+            <div class="journey-tip-links">
+              <span>{{ i18n .linksLabelKey }}</span>
+              {{ range .links }}<a href="{{ .href | safeURL }}" target="_blank" rel="noopener">{{ .label }} ↗</a>{{ end }}
+            </div>
+            {{ end }}
+            {{ with .warnKeys }}
+            <ul class="journey-warn">
+              {{ range . }}<li>{{ i18n . | safeHTML }}</li>{{ end }}
+            </ul>
+            {{ end }}
           </div>
         </article>
         {{ end }}
@@ -74,6 +125,8 @@
         </div>
         <a href="{{ "journey/step-2/" | relLangURL }}" class="btn-primary journey-next-btn">{{ i18n "journeyStep1NextCta" }}</a>
       </section>
+
+      <p class="journey-credit">{{ i18n "journeyStep1PhotoCredit" }}</p>
     </div>
   </div>
 </div>

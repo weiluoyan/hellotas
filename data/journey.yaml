@@ -1,19 +1,78 @@
 step1:
+  firstSteps:
+    - icon: "📱"
+      titleKey: journeyStep1First1Title
+      textKey: journeyStep1First1Text
+      links:
+        - { labelKey: journeyStep1LinkMovingGuide, href: "https://www.utas.edu.au/uni-life/moving" }
+    - icon: "🏠"
+      titleKey: journeyStep1First2Title
+      textKey: journeyStep1First2Text
+      links:
+        - { labelKey: journeyStep1LinkFindRoom, href: "#accommodation" }
+    - icon: "🏦"
+      titleKey: journeyStep1First3Title
+      textKey: journeyStep1First3Text
+      links:
+        - { label: CommBank, href: "https://www.commbank.com.au/moving-to-australia/study-in-australia.html" }
+        - { labelKey: journeyStep1LinkHobartBranch, href: "https://www.commbank.com.au/personal/locate-us/tas/hobart/067000.html" }
+    - icon: "🧾"
+      titleKey: journeyStep1First4Title
+      textKey: journeyStep1First4Text
+      links:
+        - { labelKey: journeyStep1LinkAto, href: "https://www.ato.gov.au/individuals-and-families/tax-file-number/apply-for-a-tfn/foreign-passport-holders-permanent-migrants-and-temporary-visitors-tfn-application" }
+    - icon: "🚌"
+      titleKey: journeyStep1First5Title
+      textKey: journeyStep1First5Text
+      links:
+        - { labelKey: journeyStep1LinkMetro, href: "https://www.metrotas.com.au/communication/blog/2026/free-bus-travel-2026/" }
+    - icon: "💼"
+      titleKey: journeyStep1First6Title
+      textKey: journeyStep1First6Text
+      links:
+        - { label: Seek, href: "https://www.seek.com.au/" }
+        - { label: Indeed, href: "https://au.indeed.com/" }
+        - { label: Jora, href: "https://au.jora.com/" }
   priorities:
-    - image: images/journey/step-1/step-1-survival-income.jpg
+    - image: images/journey/step-1/step-1-income-banner.jpg
+      imagePosition: "50% 72%"
       altKey: journeyStep1Priority1ImageAlt
       titleKey: journeyStep1Priority1Title
       tagKey: journeyStep1Priority1Tag
       tagClass: tag-free
       textKey: journeyStep1Priority1Text
-      subKey: journeyStep1Priority1Sub
-    - image: images/journey/step-1/step-1-accommodation.jpg
+      tips:
+        - { icon: "📄", titleKey: journeyStep1IncomeResumeTitle, textKey: journeyStep1IncomeResumeText }
+        - { icon: "🚪", titleKey: journeyStep1IncomeApplyTitle, textKey: journeyStep1IncomeApplyText }
+        - { icon: "🛵", titleKey: journeyStep1IncomeDeliveryTitle, textKey: journeyStep1IncomeDeliveryText }
+      linksLabelKey: journeyStep1IncomeLinksLabel
+      links:
+        - { label: Seek, href: "https://www.seek.com.au/" }
+        - { label: Indeed, href: "https://au.indeed.com/" }
+        - { label: Jora, href: "https://au.jora.com/" }
+        - { label: UTAS Careers, href: "https://www.utas.edu.au/uni-life/support-and-wellbeing/career-guidance" }
+      warnKeys:
+        - journeyStep1IncomeWarn1
+        - journeyStep1IncomeWarn2
+    - id: accommodation
+      image: images/journey/step-1/step-1-accommodation-banner.jpg
+      imagePosition: "50% 45%"
       altKey: journeyStep1Priority2ImageAlt
       titleKey: journeyStep1Priority2Title
       tagKey: journeyStep1Priority2Tag
       tagClass: tag-normal
       textKey: journeyStep1Priority2Text
-      subKey: journeyStep1Priority2Sub
+      tips:
+        - { icon: "🔍", titleKey: journeyStep1HomeSearchTitle, textKey: journeyStep1HomeSearchText }
+        - { icon: "👥", titleKey: journeyStep1HomeGroupsTitle, textKey: journeyStep1HomeGroupsText }
+        - { icon: "🎓", titleKey: journeyStep1HomeAskTitle, textKey: journeyStep1HomeAskText }
+      linksLabelKey: journeyStep1HomeLinksLabel
+      links:
+        - { label: Flatmates, href: "https://flatmates.com.au/" }
+        - { label: Facebook Marketplace, href: "https://www.facebook.com/marketplace/hobart/propertyrentals" }
+      warnKeys:
+        - journeyStep1HomeWarn1
+        - journeyStep1HomeWarn2
   basics:
     - image: images/journey/step-1/step-1-eat.jpg
       altKey: journeyStep1EatImageAlt
@@ -49,6 +108,7 @@ step1:
     - journeyStep1Checklist3
     - journeyStep1Checklist4
     - journeyStep1Checklist5
+    - journeyStep1Checklist6
 
 step2:
   why:
