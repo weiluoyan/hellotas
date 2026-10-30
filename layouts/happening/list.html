@@ -15,6 +15,9 @@
     date_tbc                         true when only the month is known; start then holds the 1st of that month
     all_day                          true when the days are known but not the times (e.g. a weeks-long hackathon);
                                      start and end then hold the first and last day, and no times are shown
+    pinned                           1, 2, … to show it under "Recommended by us" in that order, with a PINNED tab
+                                     and a countdown everywhere it appears; it drops out by itself once it's over.
+                                     Delete the line to unpin
     type                             webinar, workshop, forum, talk, meetup, conference, hackathon, networking, awards
     format                           online, in_person or hybrid
     topics                           any of: cyber, ai, careers, data, development, community, ux
@@ -65,6 +68,7 @@
       "end" ($end.Format "2006-01-02T15:04:05Z07:00")
       "dateTbc" ($e.date_tbc | default false)
       "allDay" ($e.all_day | default false)
+      "pinned" ($e.pinned | default 0)
       "fallbackDate" ($start.Format (cond ($e.all_day | default false) "Mon 2 Jan 2006" "Mon 2 Jan 2006 · 3:04 pm"))
       "title" (partial "happening-text.html" (dict "v" $e.title "lang" $lang))
       "type" (i18n (printf "happeningType%s" (strings.FirstUpper ($e.type | default "event"))))
@@ -95,6 +99,12 @@
     "today" (i18n "happeningToday")
     "tomorrow" (i18n "happeningTomorrow")
     "thisWeek" (i18n "happeningThisWeek")
+    "onNow" (i18n "happeningOnNow")
+    "inDays" (i18n "happeningInDays")
+    "prevEvent" (i18n "happeningPrevEvent")
+    "nextEvent" (i18n "happeningNextEvent")
+    "pause" (i18n "carouselPause")
+    "play" (i18n "carouselPlay")
     "dateTbc" (i18n "happeningDateTBC")
     "month" (i18n "happeningCalMonth")
     "week" (i18n "happeningCalWeek")
@@ -131,14 +141,34 @@
       <h2><svg class="live-icon" viewBox="0 0 20 20" width="22" height="22" aria-hidden="true" focusable="false"><circle class="live-ring live-ring--outer" cx="10" cy="10" r="8.25"/><circle class="live-ring live-ring--inner" cx="10" cy="10" r="5.25"/><circle class="live-dot" cx="10" cy="10" r="2.5"/></svg>{{ i18n "happeningNowTitle" }}</h2>
       <p>{{ i18n "happeningNowSub" }}</p>
     </div>
-    <div class="hp-now" data-now-list></div>
+    <div class="hp-deck" data-deck data-now-deck aria-roledescription="carousel" aria-label="{{ i18n "happeningNowTitle" }}">
+      <div class="hp-deck-track" data-deck-track data-now-list></div>
+    </div>
     <div class="hp-now-empty" data-now-empty hidden>
       <p class="hp-now-empty-title">{{ i18n "happeningNowEmptyTitle" }}</p>
       <p class="hp-now-empty-next" data-next-up hidden>{{ i18n "happeningNowEmptyNext" }} <a href="#" data-next-link></a> <span data-next-when></span></p>
       <p class="hp-now-empty-none" data-next-none hidden>{{ i18n "happeningNowEmptyNone" }}</p>
-      <a class="hp-btn-outline" href="#upcoming">{{ i18n "happeningSeeUpcoming" }} ↓</a>
+      <div class="hp-now-empty-actions">
+        <a class="hp-btn-outline" href="#recommended" data-see-picks hidden>{{ i18n "happeningSeeRecommended" }} ↓</a>
+        <a class="hp-btn-outline" href="#upcoming" data-see-upcoming>{{ i18n "happeningSeeUpcoming" }} ↓</a>
+      </div>
     </div>
   </div>
+
+  {{- /* Pinned events, in pin order. The script hides each one once it's over, and the section when none are left. */ -}}
+  {{ with sort (where $events "pinned" "gt" 0) "pinned" }}
+  <div class="hp-section hp-picks-section" id="recommended" data-picks>
+    <div class="hp-head">
+      <h2>{{ partial "pin-icon.html" 24 }}{{ i18n "happeningPickedTitle" }}</h2>
+      <p>{{ i18n "happeningPickedSub" }}</p>
+    </div>
+    <div class="hp-deck" data-deck aria-roledescription="carousel" aria-label="{{ i18n "happeningPickedTitle" }}">
+      <div class="hp-deck-track" data-deck-track>
+        {{ range . }}{{ partial "happening-card.html" (merge . (dict "spot" true)) }}{{ end }}
+      </div>
+    </div>
+  </div>
+  {{ end }}
 
   <div class="hp-section" id="upcoming">
     <div class="hp-head hp-head--row">
@@ -180,6 +210,7 @@
           <span class="hp-row-day" data-day>{{ (time .start).Format "2" }}</span>
         </span>
         <span class="hp-row-main">
+          {{ if .pinned }}<span class="hp-row-pin">{{ partial "pin-icon.html" 12 }}{{ i18n "happeningPinned" }}</span>{{ end }}
           <span class="hp-row-title">{{ .title }}</span>
           <span class="hp-row-host">{{ .type }} · {{ .host }}</span>
         </span>

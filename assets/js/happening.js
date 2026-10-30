@@ -1,5 +1,7 @@
-// Happening page: sorts events into "Happening Now" and "Upcoming" by today's date in Hobart, writes dates in the
-// page's language, makes "Add to calendar" files and draws the month / week calendar.
+// Happening page: sorts events into "Happening Now" and "Upcoming" by today's date in Hobart, keeps the pinned
+// events in "Recommended by us" until they're over, writes dates in the page's language, makes "Add to calendar"
+// files and draws the month / week calendar. Add ?at=2026-11-08T10:00 to the address to see the page as it will
+// look at that moment.
 // Without this script every event stays listed under Upcoming.
 (function () {
   var root = document.querySelector('[data-happening]');
@@ -10,6 +12,7 @@
   // Animated in-page changes come from carousel.js; without it, changes just happen
   var transition = window.siteTransition || function (update) { update(); return null; };
   var locale = root.dataset.locale;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var TZ = 'Australia/Hobart';
   var DAY = 86400000;
 
@@ -124,7 +127,8 @@
       e.startKey = dayKey(e.startDate);
       e.endKey = dayKey(e.endDate);
     }
-    e.card = root.querySelector('.hp-card[data-event="' + e.id + '"]');
+    e.card = root.querySelector('.hp-card[data-event="' + e.id + '"]:not(.hp-card--spot)');
+    e.spot = root.querySelector('.hp-card--spot[data-event="' + e.id + '"]'); // its copy under "Recommended by us"
     e.row = root.querySelector('.hp-row[data-event="' + e.id + '"]');
     return e;
   });
@@ -132,36 +136,41 @@
   events.forEach(function (e) { byId[e.id] = e; });
 
   //   past      over
-  //   live      on right now (or a multi-day event part-way through)
+  //   live      on right now
+  //   running   a multi-day event part-way through ("On now")
   //   today / tomorrow / week (within the next 7 days) / later
   //   tbc       only the month is known
   function statusOf(e, now, today) {
     if (e.dateTbc) return today > e.endKey ? 'past' : 'tbc';
     if (now >= e.endDate) return 'past';
-    if (now >= e.startDate) return e.startKey === e.endKey ? 'live' : 'today';
+    if (now >= e.startDate) return e.startKey === e.endKey ? 'live' : 'running';
     if (e.startKey === today) return 'today';
     if (e.startKey === addDays(today, 1)) return 'tomorrow';
     if (e.startKey <= addDays(today, 6)) return 'week';
     return 'later';
   }
-  function isNow(status) { return status === 'live' || status === 'today' || status === 'tomorrow'; }
+  function isNow(status) { return status === 'live' || status === 'running' || status === 'today' || status === 'tomorrow'; }
 
-  var badgeText = { live: S.liveNow, today: S.today, tomorrow: S.tomorrow, week: S.thisWeek, tbc: S.dateTbc };
+  var badgeText = { live: S.liveNow, running: S.onNow, today: S.today, tomorrow: S.tomorrow, week: S.thisWeek, tbc: S.dateTbc };
+  var countdownFrom = null; // today's key, for the pinned events' countdown
   var liveIcon = '<svg class="live-icon" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true" focusable="false"><circle class="live-ring live-ring--outer" cx="10" cy="10" r="8.25"/><circle class="live-ring live-ring--inner" cx="10" cy="10" r="5.25"/><circle class="live-dot" cx="10" cy="10" r="2.5"/></svg>';
 
-  function setBadge(el, status) {
+  // Pinned events count down instead of saying "This week" (or nothing, further out): "In 9 days"
+  function setBadge(el, status, e) {
     var badge = el && el.querySelector('[data-status]');
     if (!badge) return;
     var text = badgeText[status];
+    var countdown = e && e.pinned && (status === 'week' || status === 'later');
+    if (countdown) text = S.inDays.replace('{n}', Math.round((keyTime(e.startKey) - keyTime(countdownFrom)) / DAY));
     badge.hidden = !text;
-    badge.className = 'hp-status hp-status--' + status;
+    badge.className = 'hp-status hp-status--' + (countdown ? 'countdown' : status);
     badge.innerHTML = status === 'live' ? liveIcon : '';
     badge.appendChild(document.createTextNode(text || ''));
   }
 
   // Dates in the page's language (the HTML carries an English fallback)
   events.forEach(function (e) {
-    [e.card, e.row].forEach(function (el) {
+    [e.card, e.row, e.spot].forEach(function (el) {
       if (!el) return;
       var w = el.querySelector('[data-when]');
       if (w) w.textContent = when(e, w.hasAttribute('data-time-only'));
@@ -172,10 +181,118 @@
     });
   });
 
-  // ---- Happening Now / Upcoming --------------------------------------------------------------------------
+  // ---- Carousels: Happening Now and Recommended by us --------------------------------------------------------
+  // One event per slide in a scroll-snap track, so swiping works. The controls sit above the cards: ‹ › loop
+  // round, the dots jump, "2 / 3" says where you are, and a ring fills up over ROTATE ms, then moves on to the
+  // next event (back to the first after the last). Clicking the ring pauses it (it shows ⏸ until the pointer
+  // leaves, then ▶) and clicking ▶ starts it again. The ring holds while the pointer is over a card, so a card
+  // never slides away from under a click, and it starts paused for people who prefer reduced motion.
+  // With fewer than two events the controls hide. Slides come and go as the days pass, so the controls are
+  // rebuilt from the visible slides on every refresh().
+  var ROTATE = 7000;
 
+  function Deck(el) {
+    var track = el.querySelector('[data-deck-track]');
+    var nav = document.createElement('div');
+    nav.className = 'hp-deck-nav';
+    nav.hidden = true;
+    nav.innerHTML = '<button type="button" class="hp-deck-btn" data-deck-prev>‹</button>' +
+      '<span class="hp-deck-dots"></span><span class="hp-deck-count" aria-hidden="true"></span>' +
+      '<button type="button" class="hp-deck-btn" data-deck-next>›</button>';
+    el.insertBefore(nav, track);
+    var dots = nav.querySelector('.hp-deck-dots');
+    var counter = nav.querySelector('.hp-deck-count');
+    nav.querySelector('[data-deck-prev]').setAttribute('aria-label', S.prevEvent);
+    nav.querySelector('[data-deck-next]').setAttribute('aria-label', S.nextEvent);
+    var index = 0;
+
+    function slides() { return Array.prototype.filter.call(track.children, function (c) { return !c.hidden; }); }
+    function mark() {
+      var list = slides();
+      counter.textContent = (index + 1) + ' / ' + list.length;
+      Array.prototype.forEach.call(dots.children, function (dot, j) {
+        if (j === index) dot.setAttribute('aria-current', 'true'); else dot.removeAttribute('aria-current');
+      });
+    }
+    function goTo(i, instant) {
+      var list = slides();
+      if (!list.length) return;
+      index = (i + list.length) % list.length;
+      if (auto) auto.reset(); // a new slide gets a full turn of the ring
+      track.scrollTo({ left: list[index].offsetLeft - list[0].offsetLeft, behavior: instant || reduceMotion ? 'auto' : 'smooth' });
+      mark();
+    }
+
+    var ticking = false;
+    track.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var list = slides();
+        if (!list.length) return;
+        var base = list[0].offsetLeft;
+        var best = 0;
+        list.forEach(function (slide, j) {
+          if (Math.abs(slide.offsetLeft - base - track.scrollLeft) < Math.abs(list[best].offsetLeft - base - track.scrollLeft)) best = j;
+        });
+        if (best !== index) { index = best; if (auto) auto.reset(); mark(); }
+      });
+    }, { passive: true });
+    nav.querySelector('[data-deck-prev]').addEventListener('click', function () { goTo(index - 1); });
+    nav.querySelector('[data-deck-next]').addEventListener('click', function () { goTo(index + 1); });
+    dots.addEventListener('click', function (ev) {
+      var dot = ev.target.closest('[data-dot]');
+      if (dot) goTo(Number(dot.dataset.dot));
+    });
+    el.addEventListener('keydown', function (ev) {
+      if (nav.hidden || ev.target.closest('input, textarea')) return;
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); goTo(index - 1); }
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); goTo(index + 1); }
+    });
+
+    // Auto-advance ring from carousel.js; it holds while the pointer is over a card
+    var auto = null;
+    var holding = false;
+    if (window.siteAutoAdvance) {
+      var ring = window.siteRingButton(S.pause, S.play, 'hp-deck-ring');
+      nav.appendChild(ring);
+      auto = window.siteAutoAdvance(ring, {
+        delay: ROTATE,
+        next: function () { goTo(index + 1); },
+        held: function () { return holding || nav.hidden || el.hidden; }
+      });
+      track.addEventListener('pointerenter', function () { holding = true; });
+      track.addEventListener('pointerleave', function () { holding = false; });
+    }
+
+    this.refresh = function () {
+      var n = slides().length;
+      el.classList.toggle('hp-deck--multi', n > 1);
+      nav.hidden = n < 2;
+      if (dots.children.length !== n) {
+        dots.innerHTML = '';
+        for (var j = 0; j < n; j++) {
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'hp-deck-dot';
+          dot.dataset.dot = j;
+          dot.setAttribute('aria-label', (j + 1) + ' / ' + n);
+          dots.appendChild(dot);
+        }
+      }
+      if (n) goTo(Math.min(index, n - 1), true);
+    };
+  }
+
+  // ---- Happening Now / Recommended / Upcoming ------------------------------------------------------------
+
+  var nowDeckEl = root.querySelector('[data-now-deck]');
   var nowList = root.querySelector('[data-now-list]');
   var nowEmpty = root.querySelector('[data-now-empty]');
+  var nowDeck = new Deck(nowDeckEl);
+  var picks = root.querySelector('[data-picks]');
+  var picksDeck = picks ? new Deck(picks.querySelector('[data-deck]')) : null;
   var cardList = root.querySelector('[data-upcoming-cards]');
   var rowList = root.querySelector('[data-upcoming-list]');
   var upcomingEmpty = root.querySelector('[data-upcoming-empty]');
@@ -190,40 +307,57 @@
   var searchCount = searchStatus.querySelector('.events-count');
   var searchEmpty = root.querySelector('[data-search-empty]');
   var searchAnnounce = root.querySelector('[data-search-announce]');
-  function fold(text) { return text.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+  function fold(text) { return text.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
   events.forEach(function (e) { e.searchText = fold(e.search || ''); });
   function searchTerms() { return fold(searchInput.value).split(/\s+/).filter(Boolean); }
 
+  // Pinned events first (by their number), then by start time; events are already in start order
+  function pinOrder(a, b) { return (a.pinned || Infinity) - (b.pinned || Infinity); }
+
   function sortEvents(now) {
     var today = dayKey(now);
+    countdownFrom = today;
     var happening = [];
     var upcoming = [];
+    var picksLeft = 0;
     events.forEach(function (e) {
       e.status = statusOf(e, now, today);
       var here = isNow(e.status);
       if (e.card) {
-        // Events only ever move Upcoming → Now in date order, so each list stays sorted. Cards that stay put
-        // aren't re-inserted, which would restart their fade-in.
+        // Cards only ever move Upcoming → Now; cards that stay put aren't re-inserted, which would restart
+        // their fade-in
         var list = here ? nowList : cardList;
         if (e.card.parentNode !== list) list.appendChild(e.card);
-        e.card.classList.remove('hp-card--feature');
-        setBadge(e.card, e.status);
+        setBadge(e.card, e.status, e);
       }
-      if (e.row) setBadge(e.row, e.status);
+      if (e.row) setBadge(e.row, e.status, e);
+      if (e.spot) {
+        e.spot.hidden = e.status === 'past';
+        if (!e.spot.hidden) picksLeft++;
+        setBadge(e.spot, e.status, e);
+      }
       if (here) happening.push(e);
       else if (e.status !== 'past') upcoming.push(e);
     });
 
-    if (happening.length) happening[0].card.classList.add('hp-card--feature');
-    nowList.classList.toggle('hp-now--several', happening.length > 1);
-    nowList.hidden = !happening.length;
+    // Happening Now in pin order; only touched when the order changes
+    happening = happening.slice().sort(pinOrder);
+    var inNow = Array.prototype.filter.call(nowList.children, function (c) {
+      return happening.some(function (e) { return e.card === c; });
+    });
+    if (happening.some(function (e, i) { return inNow[i] !== e.card; })) {
+      happening.forEach(function (e) { if (e.card) nowList.appendChild(e.card); });
+    }
+    nowDeckEl.hidden = !happening.length;
     nowEmpty.hidden = happening.length > 0;
+    if (picks) picks.hidden = !picksLeft;
 
-    // Nothing today or tomorrow: point to the next event instead
+    // Nothing today or tomorrow: point to the next event, and to Recommended and Upcoming
     var next = upcoming[0];
     nowEmpty.querySelector('[data-next-up]').hidden = !next;
     nowEmpty.querySelector('[data-next-none]').hidden = !!next;
-    nowEmpty.querySelector('.hp-btn-outline').hidden = !next;
+    nowEmpty.querySelector('[data-see-upcoming]').hidden = !next;
+    nowEmpty.querySelector('[data-see-picks]').hidden = !picksLeft;
     if (next) {
       var link = nowEmpty.querySelector('[data-next-link]');
       link.textContent = next.title;
@@ -233,6 +367,8 @@
 
     upcomingEvents = upcoming;
     applySearch();
+    nowDeck.refresh();
+    if (picksDeck) picksDeck.refresh();
   }
 
   // Which cards and rows show: past events never; Happening Now always; upcoming ones when they match the search
@@ -628,8 +764,10 @@
 
   // Every minute the events are re-sorted; the calendar is only redrawn when the date changes,
   // so it doesn't move under someone who is using it.
+  // ?at=2026-11-08T10:00 shows the page as it will look at that moment (for checking pinned events, Happening Now…)
+  var at = new Date(new URLSearchParams(location.search).get('at') || NaN);
   function refresh() {
-    var now = new Date();
+    var now = isNaN(at) ? new Date() : at;
     var newToday = dayKey(now);
     sortEvents(now);
     if (newToday === today) return;

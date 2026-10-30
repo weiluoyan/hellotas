@@ -2,6 +2,13 @@
   --brand: #C8102E;
   --brand-dark: #A00D25;
   --brand-light: #FFF5F5;
+  /* Highlighted blocks: a filled light-pink surface lifted off the page by a soft shadow, like the share bar */
+  --tint-surface: linear-gradient(135deg, #FFF0F2 0%, #FCE3E8 100%);
+  /* Controls laid over photos (counter, arrows, auto-advance ring): one see-through dark glass */
+  --glass: rgba(15, 23, 42, 0.5);
+  --glass-hover: rgba(15, 23, 42, 0.68);
+  --glass-blur: blur(6px) saturate(140%);
+  --tint-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 6px rgba(200, 16, 46, 0.06), 0 14px 32px rgba(200, 16, 46, 0.12);
   --text-dark: #1E293B;
   --text-mid: #64748B;
   --text-light: #94A3B8;
@@ -850,10 +857,10 @@ img { max-width: 100%; display: block; }
 
 /* ===== Bottom note ===== */
 .bottom-note {
-  background: var(--brand-light);
+  background: var(--tint-surface);
   border-radius: 20px;
   padding: 40px;
-  border-left: 6px solid var(--brand);
+  box-shadow: var(--tint-shadow);
   margin-bottom: 80px;
 }
 
@@ -1154,16 +1161,18 @@ img { max-width: 100%; display: block; }
   object-fit: cover;
 }
 
-.carousel-btn,
-.carousel-pause {
+.carousel-btn {
   position: absolute;
   border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--text-dark);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: #FFFFFF;
   cursor: pointer;
 }
+
+.carousel-btn:hover { background: var(--glass-hover); }
 
 .carousel-btn {
   top: 50%;
@@ -1173,7 +1182,7 @@ img { max-width: 100%; display: block; }
   font-size: 24px;
   line-height: 1;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, background 0.2s;
 }
 
 .carousel-prev { left: 10px; }
@@ -1192,7 +1201,9 @@ img { max-width: 100%; display: block; }
   right: 10px;
   padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.65);
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   color: #FFFFFF;
   font-size: 12px;
   font-weight: 600;
@@ -1227,16 +1238,51 @@ img { max-width: 100%; display: block; }
   background: #FFFFFF;
 }
 
-.carousel-pause {
-  bottom: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  font-size: 11px;
+/* Auto-advance ring (carousel.js ringButton / autoAdvance): fills up, then the next slide comes in.
+   Click to pause (⏸ until the pointer leaves, then ▶), click again to play. */
+.ring-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--brand);
+  cursor: pointer;
 }
 
-.carousel-pause::before { content: "❚❚"; }
-.carousel-pause.is-paused::before { content: "▶"; }
+.ring-btn svg { display: block; margin: auto; fill: none; }
+.ring-btn .ring-track { stroke: #F4C7CE; stroke-width: 2.5; }
+.ring-btn .ring-fill { stroke: var(--brand); stroke-width: 2.5; stroke-linecap: round; }
+.ring-btn .ring-pause { stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; opacity: 0; transition: opacity 0.15s; }
+.ring-btn .ring-play { fill: currentColor; opacity: 0; transition: opacity 0.15s; }
+.ring-btn:hover .ring-pause,
+.ring-btn:focus-visible .ring-pause,
+.ring-btn.just-paused .ring-pause { opacity: 1; }
+.ring-btn.is-paused:not(.just-paused) .ring-pause { opacity: 0; }
+.ring-btn.is-paused:not(.just-paused) .ring-play { opacity: 1; }
+.ring-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* On a photo: the same glass as the counter and arrows, with a white ring */
+.carousel-ring {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 36px;
+  height: 36px;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: #FFFFFF;
+  transition: background 0.2s;
+}
+
+.carousel-ring:hover { background: var(--glass-hover); }
+.carousel-ring svg { width: 26px; height: 26px; }
+.carousel-ring .ring-track { stroke: rgba(255, 255, 255, 0.3); }
+.carousel-ring .ring-fill { stroke: #FFFFFF; }
+.carousel-ring:focus-visible { outline-color: #FFFFFF; }
 
 .event-section {
   margin-top: 64px;
@@ -1822,10 +1868,10 @@ img.author-avatar {
 }
 
 .bottom-quote {
-  background: var(--brand-light);
+  background: var(--tint-surface);
   border-radius: 20px;
   padding: 40px;
-  border-left: 6px solid var(--brand);
+  box-shadow: var(--tint-shadow);
 }
 
 .bottom-quote .voice-quote {
@@ -1997,12 +2043,11 @@ img.author-avatar {
 }
 
 .home-trust-strip {
-  background: #FFFFFF;
-  border-left: 6px solid var(--brand);
+  background: var(--tint-surface);
   border-radius: 16px;
   padding: 22px 28px;
   margin: 8px 0 56px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--tint-shadow);
   font-size: 15px;
   color: var(--text-dark);
   line-height: 1.55;
@@ -2107,16 +2152,10 @@ img.author-avatar {
 
 .home-habit-card {
   display: flex;
-  background: var(--card);
+  background: var(--tint-surface);
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--tint-shadow);
   overflow: hidden;
-}
-
-.home-habit-accent {
-  width: 6px;
-  background: var(--brand);
-  flex-shrink: 0;
 }
 
 .home-habit-inner {
@@ -2981,9 +3020,9 @@ img.author-avatar {
 .journey-warn {
   margin-top: 16px;
   padding: 12px 16px 12px 34px;
-  background: var(--brand-light);
-  border-left: 3px solid var(--brand);
-  border-radius: 8px;
+  background: var(--tint-surface);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 8px rgba(200, 16, 46, 0.1);
   font-size: 14px;
   color: var(--text-dark);
   line-height: 1.55;
@@ -3375,9 +3414,8 @@ html:has(.lightbox[open]) { overflow: hidden; }
 
 /* ===== Journey Step 2 — activity cards ===== */
 .journey-why {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-left: 6px solid var(--brand);
+  background: var(--tint-surface);
+  box-shadow: var(--tint-shadow);
   border-radius: 16px;
   padding: 24px 28px;
   margin-bottom: 56px;
@@ -3657,7 +3695,9 @@ html:has(.lightbox[open]) { overflow: hidden; }
 .hp-status[hidden] { display: none; }
 .hp-status--week,
 .hp-status--tbc { background: #FFFFFF; color: var(--brand); box-shadow: inset 0 0 0 1.5px var(--brand); }
-.hp-status--live { background: var(--brand-dark); }
+.hp-status--live,
+.hp-status--running { background: var(--brand-dark); }
+.hp-status--countdown { background: #FFFFFF; color: var(--brand); box-shadow: inset 0 0 0 1.5px var(--brand); }
 .hp-status .live-dot { fill: #FFFFFF; }
 .hp-status .live-ring { stroke: #FFFFFF; }
 
@@ -3668,7 +3708,7 @@ html:has(.lightbox[open]) { overflow: hidden; }
   gap: 24px;
 }
 
-.hp-cards[hidden], .hp-list[hidden], .hp-now[hidden], .hp-card[hidden], .hp-row[hidden] { display: none; }
+.hp-cards[hidden], .hp-list[hidden], .hp-deck[hidden], .hp-card[hidden], .hp-row[hidden], .hp-section[hidden] { display: none; }
 
 .hp-card {
   display: flex;
@@ -3822,26 +3862,137 @@ html:has(.lightbox[open]) { overflow: hidden; }
 
 .hp-prev-link:hover { text-decoration: underline; }
 
-/* ---- Happening Now: the first event large, the rest beside it ---- */
-.hp-now {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+/* ---- Happening Now and Recommended by us: one wide event per slide (assets/js/happening.js Deck) ---- */
+.hp-deck { position: relative; }
+
+.hp-deck-track {
+  position: relative;
+  display: flex;
   gap: 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 22px 2px 10px; /* room for the PINNED tab and the card shadow */
 }
 
-.hp-now .hp-card { border-top: 4px solid var(--brand); }
+.hp-deck-track::-webkit-scrollbar { display: none; }
 
-.hp-now .hp-card--feature {
-  grid-column: 1 / -1;
+.hp-deck .hp-card {
+  flex: 0 0 100%;
   flex-direction: row;
+  scroll-snap-align: start;
 }
 
-.hp-now .hp-card--feature .hp-card-media { flex: 0 0 44%; aspect-ratio: auto; min-height: 280px; }
-.hp-now .hp-card--feature .hp-card-media:not(.hp-card-media--photos) { flex-basis: 32%; }
-.hp-now .hp-card--feature .hp-card-body { padding: 28px 32px; }
-.hp-now .hp-card--feature .hp-card-title { font-size: 26px; }
-.hp-now .hp-card--feature .hp-summary { font-size: 15.5px; }
+.hp-deck .hp-card:hover { transform: none; }
+.hp-deck .hp-card-media { flex: 0 0 44%; aspect-ratio: auto; min-height: 280px; }
+.hp-deck .hp-card-media:not(.hp-card-media--photos) { flex-basis: 32%; }
+.hp-deck .hp-card-body { padding: 28px 32px; }
+.hp-deck .hp-card-title { font-size: 26px; }
+.hp-deck .hp-summary { font-size: 15.5px; }
 
+.hp-deck-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 2px;
+}
+
+.hp-deck-nav[hidden] { display: none; }
+
+.hp-deck-btn {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--brand);
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--brand);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.hp-deck-btn:hover { background: var(--brand); color: #FFFFFF; }
+.hp-deck-dots { display: flex; gap: 6px; }
+
+.hp-deck-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: #F4B6C0;
+  cursor: pointer;
+  transition: width 0.2s, background 0.2s;
+}
+
+.hp-deck-dot[aria-current="true"] { width: 24px; background: var(--brand); }
+.hp-deck-count { min-width: 44px; font-size: 13px; font-weight: 700; color: var(--text-mid); text-align: center; font-variant-numeric: tabular-nums; }
+
+/* ---- Pinned events: Laura's sticky-note tab (#53) ---- */
+.hp-picks-section h2 .pin-icon { color: var(--brand); }
+
+.pin-icon .pin-head { fill: currentColor; }
+.pin-icon .pin-needle { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+.hp-card--pinned {
+  position: relative;
+  overflow: visible;
+}
+.hp-card--pinned .hp-card-media { border-radius: 20px 20px 0 0; }
+.hp-deck .hp-card--pinned .hp-card-media { border-radius: 16px 0 0 20px; }
+
+.hp-pin {
+  position: absolute;
+  top: -16px;
+  left: 18px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 22px 9px 14px;
+  background: var(--brand);
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: 4px;
+  /* Folded bottom-right corner, like a sticky note */
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  transform: rotate(-3deg);
+  pointer-events: none;
+}
+
+.hp-pin::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, var(--brand-dark) 50%, transparent 50%);
+}
+
+.hp-row-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  padding: 2px 8px 2px 6px;
+  border-radius: 4px;
+  background: var(--brand);
+  color: #FFFFFF;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hp-now-empty-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 
 .hp-now-empty {
   display: flex;
@@ -3860,7 +4011,6 @@ html:has(.lightbox[open]) { overflow: hidden; }
 .hp-now-empty-next[hidden], .hp-now-empty-none[hidden] { display: none; }
 .hp-now-empty-next a { font-weight: 700; color: var(--brand); }
 .hp-now-empty-next a:hover { text-decoration: underline; }
-.hp-now-empty .hp-btn-outline { margin-top: 8px; }
 
 /* ---- Cards / List switch ---- */
 .hp-view-toggle {
@@ -4155,7 +4305,7 @@ html:has(.lightbox[open]) { overflow: hidden; }
 .cal-panel-none { padding: 4px 0; color: var(--text-mid); }
 
 @media (max-width: 1000px) {
-  .hp-cards, .hp-now { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hp-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hp-row { grid-template-columns: 56px minmax(0, 1fr) auto; }
   .hp-row-place, .hp-row-when { grid-column: 2; }
   .hp-row > .hp-row-link, .hp-row-actions { grid-column: 3; grid-row: 1 / span 3; }
@@ -4164,11 +4314,12 @@ html:has(.lightbox[open]) { overflow: hidden; }
 @media (max-width: 768px) {
   .hp-section { margin-bottom: 56px; }
   .hp-head h2 { font-size: 26px; }
-  .hp-cards, .hp-now { grid-template-columns: 1fr; }
-  .hp-now .hp-card--feature { flex-direction: column; }
-  .hp-now .hp-card--feature .hp-card-media { flex: none; aspect-ratio: 16 / 9; min-height: 0; }
-  .hp-now .hp-card--feature .hp-card-body { padding: 20px 22px 22px; }
-  .hp-now .hp-card--feature .hp-card-title { font-size: 21px; }
+  .hp-cards { grid-template-columns: 1fr; }
+  .hp-deck .hp-card { flex-direction: column; }
+  .hp-deck .hp-card-media { flex: none; aspect-ratio: 16 / 9; min-height: 0; }
+  .hp-deck .hp-card--pinned .hp-card-media { border-radius: 16px 16px 0 0; }
+  .hp-deck .hp-card-body { padding: 20px 22px 22px; }
+  .hp-deck .hp-card-title { font-size: 21px; }
   .hp-now-empty { padding: 22px; }
   .hp-list { padding: 4px 18px; }
   .hp-row { grid-template-columns: 48px minmax(0, 1fr); gap: 4px 14px; }

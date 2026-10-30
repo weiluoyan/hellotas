@@ -2,9 +2,14 @@
   One upcoming event (Happening page). Takes the event dict built in layouts/happening/list.html.
   The script moves the card into "Happening Now" when it's on today or tomorrow, hides it once it's over,
   and rewrites the date text and status badge in the visitor's language.
+  A pinned event (pinned: N in its data file) gets the PINNED tab; spot: true renders the copy shown under
+  "Recommended by us", with its own id so the page has no duplicate ids.
 */ -}}
 {{- $start := time .start -}}
-<article class="hp-card" id="event-{{ .id }}" data-event="{{ .id }}" data-start="{{ .start }}" data-end="{{ .end }}"{{ if .dateTbc }} data-tbc{{ end }}>
+<article class="hp-card{{ if .pinned }} hp-card--pinned{{ end }}{{ if .spot }} hp-card--spot{{ end }}" id="{{ if .spot }}pick{{ else }}event{{ end }}-{{ .id }}" data-event="{{ .id }}" data-start="{{ .start }}" data-end="{{ .end }}"{{ if .dateTbc }} data-tbc{{ end }}>
+  {{- if .pinned }}
+  <span class="hp-pin">{{ partial "pin-icon.html" 18 }}{{ i18n "happeningPinned" }}</span>
+  {{- end }}
   <div class="hp-card-media{{ if .photos }} hp-card-media--photos{{ else }} hp-card-media--{{ .format }}{{ end }}">
     {{ with .photos }}
     {{ partial "carousel.html" (dict "images" . "captions" $.captions "sources" $.sources "alt" $.title "class" "carousel--fit" "lazy" true "backdrop" true "lightbox" true) }}

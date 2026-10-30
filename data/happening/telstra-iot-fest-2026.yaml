@@ -6,6 +6,7 @@ title:
 start: "2026-11-09T00:00:00+11:00"
 end: "2026-12-03T23:59:00+11:00"
 all_day: true
+pinned: 2
 type: "hackathon"
 format: "hybrid"
 topics: [development, data, ai]

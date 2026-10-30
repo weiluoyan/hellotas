@@ -54,38 +54,59 @@
     if (window.ResizeObserver) new ResizeObserver(place).observe(group);
   }
 
-  // Advance a carousel on its own every `delay` ms.
-  //   root      the .carousel element (pause button: root.querySelector('.carousel-pause'))
-  //   next      call to move to the next slide (wraps back to the first)
-  //   delay     milliseconds between slides, from data-autoplay
-  // Holds still while hovered, while something inside has keyboard focus, while the tab is hidden,
-  // and after the pause button is pressed. Starts paused for visitors who prefer reduced motion.
-  function startAutoplay(root, next, delay) {
-    var button = root.querySelector('.carousel-pause');
-    var hovering = false;
-    var focused = false;
-    var paused = reduceMotion;
-
-    function setPaused(value) {
-      paused = value;
-      button.classList.toggle('is-paused', paused);
-      button.setAttribute('aria-label', paused ? button.dataset.labelPlay : button.dataset.labelPause);
-    }
-
-    root.addEventListener('mouseenter', function () { hovering = true; });
-    root.addEventListener('mouseleave', function () { hovering = false; });
-    // Focus on the pause button itself doesn't count, or pressing play would never resume.
-    root.addEventListener('focusin', function (e) { focused = e.target !== button; });
-    root.addEventListener('focusout', function (e) {
-      if (!root.contains(e.relatedTarget)) focused = false;
-    });
-    button.addEventListener('click', function () { setPaused(!paused); });
-
-    setPaused(paused);
-    setInterval(function () {
-      if (!paused && !hovering && !focused && !document.hidden) next();
-    }, delay);
+  // Auto-advance ring, shared by the photo carousels and the Happening page (window.siteAutoAdvance).
+  // A small ring fills up over `delay` ms, then next() shows the next slide (the caller loops back to the first).
+  // Clicking it pauses: it shows ⏸ until the pointer leaves, then ▶, and clicking ▶ plays again. reset() gives
+  // the current slide a full turn (call it when someone moves the carousel by hand). The ring stops filling
+  // while the tab is hidden or while held() says so, and starts paused for people who prefer reduced motion.
+  //   ring     a button from ringButton()
+  //   options  { delay, next, held }
+  var RING_LENGTH = 2 * Math.PI * 10;
+  function ringButton(labelPause, labelPlay, className) {
+    var ring = document.createElement('button');
+    ring.type = 'button';
+    ring.className = 'ring-btn' + (className ? ' ' + className : '');
+    ring.dataset.labelPause = labelPause;
+    ring.dataset.labelPlay = labelPlay;
+    ring.innerHTML = '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" focusable="false">' +
+      '<circle class="ring-track" cx="12" cy="12" r="10"/>' +
+      '<circle class="ring-fill" cx="12" cy="12" r="10" transform="rotate(-90 12 12)" stroke-dasharray="' + RING_LENGTH +
+        '" stroke-dashoffset="' + RING_LENGTH + '"/>' +
+      '<path class="ring-pause" d="M9.5 8.5v7M14.5 8.5v7"/>' +
+      '<path class="ring-play" d="M10 8.2v7.6l6-3.8z"/>' +
+      '</svg>';
+    return ring;
   }
+  function autoAdvance(ring, options) {
+    var fill = ring.querySelector('.ring-fill');
+    var playing = !reduceMotion;
+    var elapsed = 0;
+    var last = null;
+    function setPlaying(value) {
+      playing = value;
+      ring.classList.toggle('is-paused', !playing);
+      ring.setAttribute('aria-label', playing ? ring.dataset.labelPause : ring.dataset.labelPlay);
+    }
+    function tick(time) {
+      var held = document.hidden || !ring.isConnected || (options.held && options.held());
+      if (playing && !held && last !== null) elapsed += time - last;
+      last = time;
+      if (elapsed >= options.delay) { elapsed = 0; options.next(); }
+      fill.setAttribute('stroke-dashoffset', RING_LENGTH * (1 - Math.min(elapsed / options.delay, 1)));
+      requestAnimationFrame(tick);
+    }
+    ring.addEventListener('click', function () {
+      setPlaying(!playing);
+      ring.classList.toggle('just-paused', !playing);
+    });
+    ring.addEventListener('pointerleave', function () { ring.classList.remove('just-paused'); });
+    ring.addEventListener('blur', function () { ring.classList.remove('just-paused'); });
+    setPlaying(playing);
+    requestAnimationFrame(tick);
+    return { reset: function () { elapsed = 0; } };
+  }
+  window.siteRingButton = ringButton;
+  window.siteAutoAdvance = autoAdvance;
 
   function initCarousel(root) {
     var track = root.querySelector('.carousel-track');
@@ -93,15 +114,19 @@
     var dots = root.querySelectorAll('.carousel-dot');
     var counter = root.querySelector('.carousel-current');
     var index = 0;
+    var auto = null; // the auto-advance ring, on carousels with data-autoplay
 
     function goTo(i) {
       index = (i + slides.length) % slides.length;
+      if (auto) auto.reset();
       track.scrollTo({ left: slides[index].offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
     }
 
     function sync() {
       var i = Math.round(track.scrollLeft / track.clientWidth);
-      index = Math.max(0, Math.min(i, slides.length - 1));
+      i = Math.max(0, Math.min(i, slides.length - 1));
+      if (i !== index && auto) auto.reset(); // swiped by hand
+      index = i;
       counter.textContent = index + 1;
       dots.forEach(function (dot, j) {
         if (j === index) dot.setAttribute('aria-current', 'true');
@@ -123,7 +148,9 @@
     });
 
     if (root.dataset.autoplay) {
-      startAutoplay(root, function () { goTo(index + 1); }, Number(root.dataset.autoplay));
+      var ring = ringButton(root.dataset.labelPause, root.dataset.labelPlay, 'carousel-ring');
+      root.appendChild(ring);
+      auto = autoAdvance(ring, { delay: Number(root.dataset.autoplay), next: function () { goTo(index + 1); } });
     }
   }
 
