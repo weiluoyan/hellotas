@@ -24,6 +24,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* English UI: Montserrat (UTAS brand feel) */
+html[lang^="en"] body {
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
@@ -75,6 +80,12 @@ img { max-width: 100%; display: block; }
   font-size: 15px;
   color: var(--text-dark);
   flex: 1;
+  min-width: 0;
+}
+
+/* Keep English (and other) nav labels on one line under Montserrat */
+.nav-links a {
+  white-space: nowrap;
 }
 
 
@@ -116,65 +127,100 @@ img { max-width: 100%; display: block; }
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
+  flex-shrink: 0;
 }
 
-/* ===== Language picker (dropdown) ===== */
+/* ===== Language picker (compact: flag + short code) ===== */
 .lang-picker {
   position: relative;
+  flex-shrink: 0;
 }
 
 .lang-picker summary {
   list-style: none;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
+  gap: 4px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--brand);
-  background: #FFFFFF;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 8px 14px;
+  letter-spacing: 0.02em;
+  color: var(--text-dark);
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 6px;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+  line-height: 1.2;
 }
 
 .lang-picker summary::-webkit-details-marker { display: none; }
 
-.lang-picker summary:hover { border-color: var(--brand); }
+.lang-picker summary:hover {
+  color: var(--brand);
+  background: var(--brand-light);
+}
+
+.lang-picker summary:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.lang-flag {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.lang-code {
+  font-variant: all-small-caps;
+  font-feature-settings: "smcp";
+  letter-spacing: 0.04em;
+}
 
 .lang-caret {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-mid);
   transition: transform 0.2s;
+  margin-left: 1px;
 }
 
 .lang-picker[open] .lang-caret { transform: rotate(180deg); }
 
-.lang-picker[open] summary { border-color: var(--brand); }
+.lang-picker[open] summary {
+  color: var(--brand);
+  background: var(--brand-light);
+}
 
 .lang-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 6px);
   right: 0;
-  min-width: 150px;
+  min-width: 148px;
   background: #FFFFFF;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 10px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  padding: 6px;
+  padding: 4px;
   z-index: 200;
 }
 
 .lang-menu-item {
-  display: block;
-  padding: 9px 14px;
-  border-radius: 10px;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 13px;
   color: var(--text-dark);
   white-space: nowrap;
+}
+
+.lang-menu-item .lang-full {
+  color: var(--text-mid);
+  font-weight: 500;
+  font-size: 12px;
 }
 
 .lang-menu a.lang-menu-item:hover {
@@ -182,15 +228,20 @@ img { max-width: 100%; display: block; }
   color: var(--brand);
 }
 
+.lang-menu a.lang-menu-item:hover .lang-full { color: var(--brand); }
+
 .lang-menu-current {
   color: var(--brand);
   font-weight: 700;
   cursor: default;
+  background: var(--brand-light);
 }
 
+.lang-menu-current .lang-full { color: var(--brand); }
+
 @media (max-width: 768px) {
-  .nav-right { gap: 12px; }
-  .lang-picker summary { padding: 7px 12px; font-size: 13px; }
+  .nav-right { gap: 10px; }
+  .lang-picker summary { padding: 4px 5px; font-size: 12px; }
   .btn-primary { padding: 8px 16px; font-size: 13px; }
 }
 

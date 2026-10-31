@@ -61,18 +61,31 @@
     </script>
     <div class="nav-right">
       {{ $page := . }}
+      {{- /* Compact lang control: flag emoji + short code (frees nav space for Montserrat). */ -}}
+      {{- $langMeta := dict
+            "en" (dict "flag" "🇦🇺" "short" "EN" "label" "English")
+            "zh" (dict "flag" "🇨🇳" "short" "ZH" "label" "简体中文")
+            "ne" (dict "flag" "🇳🇵" "short" "NE" "label" "नेपाली")
+      -}}
       <details class="lang-picker">
-        <summary class="lang-current" aria-haspopup="menu" title="Language">
-          {{ range hugo.Sites }}
-            {{ if eq .Language.Lang $page.Language.Lang }}<span class="lang-name">{{ .Language.Label }}</span>{{ end }}
-          {{ end }}
+        {{- $cur := index $langMeta $page.Language.Lang -}}
+        {{- if not $cur }}{{ $cur = dict "flag" "" "short" (upper $page.Language.Lang) "label" $page.Language.Label }}{{ end -}}
+        <summary class="lang-current" aria-haspopup="menu" aria-label="Language: {{ $cur.label }}" title="{{ $cur.label }}">
+          <span class="lang-flag" aria-hidden="true">{{ $cur.flag }}</span>
+          <span class="lang-code">{{ $cur.short }}</span>
           <span class="lang-caret" aria-hidden="true">▾</span>
         </summary>
         <div class="lang-menu" role="menu">
           {{ range hugo.Sites }}
             {{ $lang := .Language }}
+            {{- $meta := index $langMeta $lang.Lang -}}
+            {{- if not $meta }}{{ $meta = dict "flag" "" "short" (upper $lang.Lang) "label" $lang.Label }}{{ end -}}
             {{ if eq $lang.Lang $page.Language.Lang }}
-              <span class="lang-menu-item lang-menu-current" role="menuitem" aria-current="true">{{ $lang.Label }}</span>
+              <span class="lang-menu-item lang-menu-current" role="menuitem" aria-current="true">
+                <span class="lang-flag" aria-hidden="true">{{ $meta.flag }}</span>
+                <span class="lang-code">{{ $meta.short }}</span>
+                <span class="lang-full">{{ $meta.label }}</span>
+              </span>
             {{ else }}
               {{ $url := "" }}
               {{ range $page.Translations }}
@@ -81,7 +94,11 @@
               {{ if not $url }}
                 {{ if eq $lang.Lang "en" }}{{ $url = relURL "/" }}{{ else }}{{ $url = relURL (printf "%s/" $lang.Lang) }}{{ end }}
               {{ end }}
-              <a class="lang-menu-item" role="menuitem" href="{{ $url }}">{{ $lang.Label }}</a>
+              <a class="lang-menu-item" role="menuitem" href="{{ $url }}" aria-label="{{ $meta.label }}">
+                <span class="lang-flag" aria-hidden="true">{{ $meta.flag }}</span>
+                <span class="lang-code">{{ $meta.short }}</span>
+                <span class="lang-full">{{ $meta.label }}</span>
+              </a>
             {{ end }}
           {{ end }}
         </div>

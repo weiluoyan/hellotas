@@ -4,6 +4,7 @@
   {{ $style := resources.Get "css/custom.css" | fingerprint }}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{ partial "extend_head.html" . }}
   <title>{{ if .Title }}{{ .Title }} · {{ end }}{{ .Site.Title }}</title>
   <link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="any">
   <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
