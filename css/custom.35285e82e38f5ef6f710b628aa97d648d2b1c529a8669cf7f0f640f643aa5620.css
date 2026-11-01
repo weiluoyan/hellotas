@@ -2941,6 +2941,16 @@ img.author-avatar {
   flex-shrink: 0;
 }
 
+/* SVG icons for Journey Step 1 */
+.journey-first-icon img,
+.journey-tip-icon img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .journey-tip h3 {
   font-size: 15px;
   font-weight: 700;
