@@ -712,12 +712,26 @@ img { max-width: 100%; display: block; }
   border-radius: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border: 1px solid transparent;
 }
 
-.tag-type { background: var(--brand); color: #FFFFFF; }
-.tag-normal { background: var(--brand-light); color: var(--brand); }
-.tag-free { background: var(--green-light); color: var(--green); }
-.tag-gpa { background: var(--orange-light); color: var(--orange); }
+/* Primary type chip keeps brand emphasis; secondary chips stay quiet/outline. */
+.tag-type { background: var(--brand); color: #FFFFFF; border-color: var(--brand); }
+.tag-normal {
+  background: #FFFFFF;
+  color: var(--text-mid);
+  border-color: var(--border);
+}
+.tag-free {
+  background: #FFFFFF;
+  color: var(--green);
+  border-color: #C8E6C9;
+}
+.tag-gpa {
+  background: #FFFFFF;
+  color: var(--orange);
+  border-color: #FFE0B2;
+}
 
 .event-body h3 {
   font-size: 22px;
@@ -853,7 +867,7 @@ img { max-width: 100%; display: block; }
   background: var(--brand-light);
   border-radius: 20px;
   padding: 40px;
-  border-left: 6px solid var(--brand);
+  border: 1px solid var(--border);
   margin-bottom: 80px;
 }
 
@@ -1825,7 +1839,7 @@ img.author-avatar {
   background: var(--brand-light);
   border-radius: 20px;
   padding: 40px;
-  border-left: 6px solid var(--brand);
+  border: 1px solid var(--border);
 }
 
 .bottom-quote .voice-quote {
@@ -1997,12 +2011,12 @@ img.author-avatar {
 }
 
 .home-trust-strip {
-  background: #FFFFFF;
-  border-left: 6px solid var(--brand);
+  background: var(--brand-light);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 22px 28px;
   margin: 8px 0 56px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: none;
   font-size: 15px;
   color: var(--text-dark);
   line-height: 1.55;
@@ -2128,20 +2142,19 @@ img.author-avatar {
 
 .home-career-card--spotlight {
   grid-column: 1 / -1;
-  display: flex;
-  padding: 0;
+  display: block;
+  padding: 32px;
   overflow: hidden;
+  background: var(--brand-light);
+  border: 1px solid var(--border);
 }
 
 .home-career-accent {
-  width: 8px;
-  background: var(--brand);
-  flex-shrink: 0;
+  display: none;
 }
 
 .home-career-spotlight-inner {
-  padding: 32px;
-  flex: 1;
+  padding: 0;
 }
 
 .home-stories {
@@ -3000,7 +3013,7 @@ img.author-avatar {
   margin-top: 16px;
   padding: 12px 16px 12px 34px;
   background: var(--brand-light);
-  border-left: 3px solid var(--brand);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
   color: var(--text-dark);
@@ -3393,9 +3406,8 @@ html:has(.lightbox[open]) { overflow: hidden; }
 
 /* ===== Journey Step 2 — activity cards ===== */
 .journey-why {
-  background: var(--card);
+  background: var(--brand-light);
   border: 1px solid var(--border);
-  border-left: 6px solid var(--brand);
   border-radius: 16px;
   padding: 24px 28px;
   margin-bottom: 56px;
