@@ -1,81 +1,82 @@
 {{ define "main" }}
 <div class="page-home">
   <section class="home-hero">
-    <div class="container home-hero-inner">
+    <div class="container home-hero-inner home-hero-inner--solo">
       <div class="home-hero-copy">
-        <h1>{{ i18n "homeHeroTitle" }} <span class="text-brand">{{ i18n "homeHeroTitleHighlight" }}</span></h1>
+        <h1>{{ i18n "homeHeroTitle" }}</h1>
         <p class="home-hero-sub">{{ i18n "homeHeroSubtitle" }}</p>
-        <p class="home-hero-note">{{ i18n "homeHeroNote" }}</p>
         <div class="home-hero-ctas">
-          <a href="{{ "journey/step-1/" | relLangURL }}" class="btn-primary">{{ i18n "homeHeroCtaStart" }}</a>
+          <a href="#home-communities" class="btn-primary">{{ i18n "homeHeroCtaExplore" }}</a>
         </div>
-      </div>
-      <div class="home-hero-media">
-        <img src="{{ "images/home/hero-tasict-awards-2026.jpg" | relURL }}" alt="{{ i18n "homeHeroImageAlt" }}" width="640" height="480">
       </div>
     </div>
   </section>
 
   <div class="container">
     <aside class="home-trust-strip">
-      <p>{{ i18n "homeTrustStrip" | safeHTML }}</p>
+      <p>{{ printf (i18n "homeTrustStrip") ("journey/step-1/" | relLangURL) | safeHTML }}</p>
     </aside>
   </div>
 
-  <section class="home-journey">
-    <div class="container">
-      <h2 class="home-section-title">{{ i18n "homeJourneyTitle" }}</h2>
-      <p class="home-section-lead">{{ i18n "homeJourneyLead" }}</p>
-
-      <ol class="home-timeline">
-        {{ range hugo.Data.homepage.steps }}
-        <li class="home-step" id="{{ .anchor }}">
-          <div class="home-step-body">
-            <div class="home-step-image">
-              <img src="{{ .image | relURL }}" alt="{{ i18n (printf "homeStep%dImageAlt" .id) }}" loading="lazy" width="400" height="280">
-            </div>
-            <div class="home-step-content">
-              <p class="home-step-eyebrow">{{ printf (i18n "homeStepLabel") .id }}</p>
-              <h3>{{ i18n (printf "homeStep%dTitle" .id) }}</h3>
-              <p>{{ i18n (printf "homeStep%dText" .id) | safeHTML }}</p>
-              <a href="{{ .ctaPath | relLangURL }}" class="btn-primary btn-sm">{{ i18n (printf "homeStep%dCta" .id) }}</a>
-            </div>
+  <section class="home-communities" id="home-communities" aria-label="{{ i18n "homeCommunitiesLabel" }}">
+    <article class="home-feature" id="utas-campus">
+      <div class="container home-feature-inner">
+        <div class="home-feature-copy">
+          <h2>{{ i18n "homeCampusTitle" }}</h2>
+          <p>{{ i18n "homeCampusLead" }}</p>
+          <p>{{ printf (i18n "homeCampusOrgs") "https://tusa.org.au/clubs-societies/" "https://lnkd.in/p/g4J54Ywy" "https://www.utas.edu.au/about/colleges-and-schools/cose/engineering/motorsport-team" | safeHTML }}</p>
+          <a class="home-feature-link" href="{{ "utas/" | relLangURL }}">{{ i18n "homeCampusExplore" }}</a>
+          <div class="home-feature-actions">
+            <a href="{{ "utas/" | relLangURL }}" class="btn-primary">{{ i18n "homeCampusCta" }}</a>
           </div>
-        </li>
-        {{ end }}
-      </ol>
-    </div>
+        </div>
+        <div class="home-feature-media">
+          <img src="{{ "images/home/step-3-campus-fair.jpg" | relURL }}" alt="{{ i18n "homeCampusImageAlt" }}" width="640" height="480" loading="lazy">
+        </div>
+      </div>
+    </article>
+
+    <article class="home-feature home-feature--flip" id="tasmania-community">
+      <div class="container home-feature-inner">
+        <div class="home-feature-media">
+          <img src="{{ "images/journey/step-2/step-2-ecohub-1.jpg" | relURL }}" alt="{{ i18n "homeLocalImageAlt" }}" width="640" height="480" loading="lazy">
+        </div>
+        <div class="home-feature-copy">
+          <h2>{{ i18n "homeLocalTitle" }}</h2>
+          <p>{{ i18n "homeLocalLead" }}</p>
+          <p>{{ printf (i18n "homeLocalOrgs") "https://ecohubsource.org.au/" "https://campus.hellorubric.com/search?country=AU&state=Tasmania&type=events&universityid=24" "https://www.mrctas.org.au/" | safeHTML }}</p>
+          <a class="home-feature-link" href="{{ "journey/step-3/" | relLangURL }}">{{ i18n "homeLocalExplore" }}</a>
+          <div class="home-feature-actions">
+            <a href="{{ "journey/step-3/" | relLangURL }}" class="btn-primary">{{ i18n "homeLocalCta" }}</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="home-feature" id="ict-industry">
+      <div class="container home-feature-inner">
+        <div class="home-feature-copy">
+          <h2>{{ i18n "homeIndustryTitle" }}</h2>
+          <p>{{ i18n "homeIndustryLead" }}</p>
+          <a class="home-feature-link" href="{{ "happening/" | relLangURL }}">{{ i18n "homeIndustryExplore" }}</a>
+          <div class="home-feature-actions">
+            <a href="{{ "happening/" | relLangURL }}" class="btn-primary">{{ i18n "homeIndustryCta" }}</a>
+          </div>
+        </div>
+        <div class="home-feature-media">
+          <img src="{{ "images/home/hero-tasict-awards-2026.jpg" | relURL }}" alt="{{ i18n "homeIndustryImageAlt" }}" width="640" height="480" loading="lazy">
+        </div>
+      </div>
+    </article>
   </section>
 
-  <section class="home-career-path" aria-labelledby="home-career-title">
-    <div class="container">
-      <h2 class="home-section-title" id="home-career-title">{{ i18n "homeCareerTitle" }}</h2>
-      <p class="home-section-lead">{{ i18n "homeCareerLead" }}</p>
-
-      <div class="home-career-grid">
-        <article class="home-career-card">
-          <h3>{{ i18n "homeCareerCard1Title" }}</h3>
-          <p>{{ i18n "homeCareerCard1Text" }}</p>
-        </article>
-        <article class="home-career-card">
-          <h3>{{ i18n "homeCareerCard2Title" }}</h3>
-          <p>{{ i18n "homeCareerCard2Text" }}</p>
-        </article>
-        <article class="home-career-card">
-          <h3>{{ i18n "homeCareerCard3Title" }}</h3>
-          <p>{{ i18n "homeCareerCard3Text" }}</p>
-        </article>
-        <article class="home-career-card">
-          <h3>{{ i18n "homeCareerCard4Title" }}</h3>
-          <p>{{ i18n "homeCareerCard4Text" }}</p>
-        </article>
-        <article class="home-career-card home-career-card--spotlight">
-          <div class="home-career-spotlight-inner">
-            <h3>{{ i18n "homeCareerCard5Title" }}</h3>
-            <p>{{ i18n "homeCareerCard5Text" }}</p>
-          </div>
-        </article>
+  <section class="home-discord" aria-labelledby="home-discord-title">
+    <div class="container home-discord-inner">
+      <div class="home-discord-copy">
+        <h2 id="home-discord-title">{{ i18n "homeDiscordTitle" }}</h2>
+        <p>{{ i18n "homeDiscordText" }}</p>
       </div>
+      <a class="btn-primary" href="https://discord.com/invite/yarnspinner" target="_blank" rel="noopener">{{ i18n "homeDiscordCta" }}</a>
     </div>
   </section>
 
@@ -84,16 +85,6 @@
       <h2 class="home-sources-title" id="home-sources-title">{{ i18n "homeSourcesTitle" }}</h2>
       <p class="home-sources-text">{{ i18n "homeSourcesIntro" }}</p>
       <p class="home-sources-text">{{ i18n "homeSourcesIctLead" }} <a href="https://www.utas.edu.au/ict" target="_blank" rel="noopener">https://www.utas.edu.au/ict</a></p>
-      <h3 class="home-sources-subtitle">{{ i18n "homeSourcesPhotosTitle" }}</h3>
-      <ul class="home-sources-list">
-        {{ range hugo.Data.homepage.sources }}
-        <li>
-          <span class="home-sources-label">{{ i18n .labelKey }}</span>
-          <span class="home-sources-publisher">{{ .publisher }}</span>
-          {{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ i18n "homeSourcesLinkText" }}</a>{{ end }}
-        </li>
-        {{ end }}
-      </ul>
     </div>
   </section>
 </div>
