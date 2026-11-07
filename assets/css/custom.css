@@ -2115,6 +2115,27 @@ img.author-avatar {
   align-items: center;
 }
 
+.home-hero-inner--solo {
+  grid-template-columns: 1fr;
+  max-width: 920px;
+}
+
+.home-hero-inner--solo .home-hero-sub {
+  max-width: 760px;
+  font-size: 20px;
+  margin-bottom: 28px;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--brand);
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+  max-width: 280px;
+  white-space: normal;
+}
+
 .home-hero-copy h1 {
   font-size: 46px;
   font-weight: 800;
@@ -2253,43 +2274,126 @@ img.author-avatar {
   margin-bottom: 16px;
 }
 
-.home-career-path {
-  padding: 56px 0 72px;
+.home-communities {
+  background: #FFFFFF;
+  padding: 8px 0 0;
+}
+
+.home-feature {
+  padding: 56px 0;
+}
+
+.home-feature:nth-child(odd) {
   background: #FFFFFF;
 }
 
-.home-career-grid {
+.home-feature:nth-child(even) {
+  background: #FAFAFA;
+}
+
+.home-feature-inner {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-top: 8px;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
 }
 
-.home-career-card {
-  background: var(--tint-surface);
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: var(--tint-shadow);
-}
-
-.home-career-card h3 {
-  font-size: 20px;
+.home-feature-copy h2 {
+  font-size: 42px;
   font-weight: 800;
+  letter-spacing: -0.6px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  color: var(--text-dark);
+}
+
+.home-feature-copy p {
+  font-size: 18px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  max-width: 540px;
+}
+
+.home-feature-copy p a,
+.home-feature-copy p strong {
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.home-feature-copy p a:hover {
   color: var(--brand);
-  margin-bottom: 12px;
-  line-height: 1.3;
+  text-decoration: underline;
 }
 
-.home-career-card p {
-  font-size: 15px;
-  color: #334155;
-  line-height: 1.65;
+.home-feature-link {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin: 8px 0 22px;
+}
+
+.home-feature-link:hover {
+  color: var(--brand);
+}
+
+.home-feature-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.home-feature-media {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #E8F0E8;
+  min-height: 280px;
+  aspect-ratio: 4 / 3;
+}
+
+.home-feature--flip .home-feature-media {
+  background: #F3E6D4;
+}
+
+.home-feature#ict-industry .home-feature-media {
+  background: #E4EAF4;
+}
+
+.home-feature-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 280px;
+}
+
+.home-discord {
+  background: #F1F5F9;
+  padding: 36px 0;
+}
+
+.home-discord-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.home-discord-copy h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.home-discord-copy p {
+  font-size: 18px;
+  color: #475569;
   margin: 0;
-}
-
-/* The fifth card spans the whole row; same filled pink and shadow as the others */
-.home-career-card--spotlight {
-  grid-column: 1 / -1;
+  max-width: 640px;
 }
 
 /* Stories page (issue #36) */
@@ -2527,8 +2631,19 @@ img.author-avatar {
   .home-step-body {
     grid-template-columns: minmax(120px, 160px) 1fr;
   }
-  .home-career-grid {
+  .home-feature-inner {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .home-feature--flip .home-feature-media {
+    order: -1;
+  }
+  .home-feature-copy h2 {
+    font-size: 32px;
+  }
+  .home-discord-inner {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
