@@ -1,18 +1,22 @@
 <header class="site-header">
   <nav class="nav">
-    <a href="{{ .Site.Home.RelPermalink }}" class="logo"><img src="{{ "images/brand/logo.svg" | relURL }}" alt="{{ i18n "siteName" }}" width="330" height="84"></a>
+    <a href="{{ .Site.Home.RelPermalink }}" class="logo logo-text">{{ i18n "siteName" }}</a>
     {{- /* Menu links, defined once: shown inline on wide screens and in the menu panel on narrower ones */ -}}
-    {{- /* Site structure from issue #33, plus Happening (issue #7): Kickstart, Community and Volunteering are journey
-         steps 1–3, Industry Events is step 4. Each item: label key and page path. */ -}}
-    {{- $links := slice (dict "key" "home" "url" .Site.Home.RelPermalink "current" .IsHome) -}}
-    {{- range slice (slice "kickstart" "/journey/step-1") (slice "community" "/journey/step-2") (slice "volunteering" "/journey/step-3") (slice "industryEvents" "/events") (slice "stories" "/stories") (slice "funFitness" "/fun-fitness") (slice "happening" "/happening") -}}
+    {{- /* Issue #73 menu: Home, UTAS, Local Community, ICT Industry, Fun Time, Happening.
+         UTAS / Local Community / ICT Industry point at homepage feature sections until dedicated pages (#77 etc.).
+         Kickstart and Stories removed from nav (content pages kept). */ -}}
+    {{- $home := .Site.Home.RelPermalink -}}
+    {{- $links := slice (dict "key" "home" "url" $home "current" .IsHome) -}}
+    {{- $links = $links | append (dict "key" "utas" "url" (printf "%s#utas-campus" $home) "current" false) -}}
+    {{- $links = $links | append (dict "key" "localCommunity" "url" (printf "%s#tasmania-community" $home) "current" false) -}}
+    {{- $links = $links | append (dict "key" "ictIndustry" "url" (printf "%s#ict-industry" $home) "current" false) -}}
+    {{- range slice (slice "funTime" "/fun-fitness") (slice "happening" "/happening") -}}
       {{- $key := index . 0 -}}{{- $path := index . 1 -}}
       {{- $url := relURL (printf "%s/" (strings.TrimPrefix "/" $path)) -}}
       {{- with site.GetPage $path }}{{ $url = .RelPermalink }}{{ end -}}
-      {{- /* Current when this page is that page or below it (an event's own page highlights Industry Events) */ -}}
       {{- $links = $links | append (dict "key" $key "url" $url "current" (strings.HasPrefix $.RelPermalink $url)) -}}
     {{- end }}
-    {{- define "partials/nav-link-items" -}}
+{{- define "partials/nav-link-items" -}}
       {{- range . -}}
       <a href="{{ .url }}"{{ if eq .key "happening" }} class="nav-live"{{ end }}{{ if .current }} aria-current="page"{{ end }}>
         {{- if eq .key "happening" }}<svg class="live-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false"><circle class="live-ring live-ring--outer" cx="10" cy="10" r="8.25"/><circle class="live-ring live-ring--inner" cx="10" cy="10" r="5.25"/><circle class="live-dot" cx="10" cy="10" r="2.5"/></svg>{{ end -}}
@@ -121,8 +125,6 @@
   </nav>
   <div class="mobile-menu" id="mobile-menu" hidden>
     {{- partial "nav-link-items" $links -}}
-  </div>
-    </div>
   </div>
   {{- /* Opened by a channel icon whose account isn't set up yet (data/channels.yaml); filled in by carousel.js */}}
   <dialog class="channel-dialog" aria-labelledby="channel-dialog-title">
