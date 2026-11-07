@@ -6,16 +6,15 @@
     </div>
     <div class="footer-links">
       <div class="footer-col">
-        <a href="{{ .Site.Home.RelPermalink }}">{{ i18n "home" }}</a>
-        <a href="{{ with .Site.GetPage "/journey/step-1" }}{{ .RelPermalink }}{{ else }}{{ relURL "journey/step-1/" }}{{ end }}">{{ i18n "kickstart" }}</a>
-        <a href="{{ with .Site.GetPage "/journey/step-2" }}{{ .RelPermalink }}{{ else }}{{ relURL "journey/step-2/" }}{{ end }}">{{ i18n "community" }}</a>
-        <a href="{{ with .Site.GetPage "/journey/step-3" }}{{ .RelPermalink }}{{ else }}{{ relURL "journey/step-3/" }}{{ end }}">{{ i18n "volunteering" }}</a>
+        {{- $home := .Site.Home.RelPermalink -}}
+        <a href="{{ $home }}">{{ i18n "home" }}</a>
+        <a href="{{ printf "%s#utas-campus" $home }}">{{ i18n "utas" }}</a>
+        <a href="{{ printf "%s#tasmania-community" $home }}">{{ i18n "localCommunity" }}</a>
+        <a href="{{ printf "%s#ict-industry" $home }}">{{ i18n "ictIndustry" }}</a>
       </div>
       <div class="footer-col">
-        <a href="{{ with .Site.GetPage "/events" }}{{ .RelPermalink }}{{ else }}{{ relURL "events/" }}{{ end }}">{{ i18n "industryEvents" }}</a>
+        <a href="{{ with .Site.GetPage "/fun-fitness" }}{{ .RelPermalink }}{{ else }}{{ relURL "fun-fitness/" }}{{ end }}">{{ i18n "funTime" }}</a>
         <a href="{{ with .Site.GetPage "/happening" }}{{ .RelPermalink }}{{ else }}{{ relURL "happening/" }}{{ end }}">{{ i18n "happening" }}</a>
-        <a href="{{ with .Site.GetPage "/stories" }}{{ .RelPermalink }}{{ else }}{{ relURL "stories/" }}{{ end }}">{{ i18n "stories" }}</a>
-        <a href="{{ with .Site.GetPage "/fun-fitness" }}{{ .RelPermalink }}{{ else }}{{ relURL "fun-fitness/" }}{{ end }}">{{ i18n "funFitness" }}</a>
       </div>
       <div class="footer-col">
         {{ $page := . }}
