@@ -3660,6 +3660,10 @@ html:has(.lightbox[open]) { overflow: hidden; }
 }
 
 .hp-btn-outline:hover { background: var(--brand-light); }
+
+/* Link from Happening (live calendar) to the /events/ archive. */
+.hp-archive-cta { margin-top: 16px; }
+.hero-section .hp-archive-cta .hp-btn-outline { display: inline-flex; }
 .hp-btn-outline[hidden] { display: none; }
 
 /* When an event starts (assets/js/happening.js): a flip-clock countdown, "Happening Now" with the live dot,
