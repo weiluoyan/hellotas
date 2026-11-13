@@ -2340,16 +2340,19 @@ img.author-avatar {
   color: var(--brand);
 }
 
-.home-feature-orgs,
-.home-feature-orgs a {
-  color: var(--text-dark);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+/* Issue #91: org sentences should read like the body copy (UTAS uni-life style), not as a bold underlined block.
+   Selectors must beat `.home-feature-copy p a` (font-weight 700), or the club names stay bold. Links stay clickable; underline only on hover. */
+.home-feature-copy p.home-feature-orgs,
+.home-feature-copy p.home-feature-orgs a {
+  color: #475569;
+  font-weight: 400;
+  text-decoration: none;
 }
 
-.home-feature-orgs a:hover {
+.home-feature-copy p.home-feature-orgs a:hover {
   color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .home-feature-actions {
