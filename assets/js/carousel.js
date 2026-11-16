@@ -108,6 +108,113 @@
   window.siteRingButton = ringButton;
   window.siteAutoAdvance = autoAdvance;
 
+  // Deck: one wide card per slide, used by Happening's "Recommended by us" (happening.js) and the events page's
+  // "Check This Out!" ([data-deck-static]).
+  // One event per slide in a scroll-snap track, so swiping works. The controls sit above the cards: ‹ › loop
+  // round, the dots jump, "2 / 3" says where you are, and a ring fills up over ROTATE ms, then moves on to the
+  // next event (back to the first after the last). Clicking the ring pauses it (it shows ⏸ until the pointer
+  // leaves, then ▶) and clicking ▶ starts it again. The ring holds while the pointer is over a card, so a card
+  // never slides away from under a click, and it starts paused for people who prefer reduced motion.
+  // With fewer than two events the controls hide. Slides come and go as the days pass, so the controls are
+  // rebuilt from the visible slides on every refresh().
+  var ROTATE = 7000;
+
+  function Deck(el, labels) {
+    var track = el.querySelector('[data-deck-track]');
+    var nav = document.createElement('div');
+    nav.className = 'hp-deck-nav';
+    nav.hidden = true;
+    nav.innerHTML = '<button type="button" class="hp-deck-btn" data-deck-prev>‹</button>' +
+      '<span class="hp-deck-dots"></span><span class="hp-deck-count" aria-hidden="true"></span>' +
+      '<button type="button" class="hp-deck-btn" data-deck-next>›</button>';
+    el.insertBefore(nav, track);
+    var dots = nav.querySelector('.hp-deck-dots');
+    var counter = nav.querySelector('.hp-deck-count');
+    nav.querySelector('[data-deck-prev]').setAttribute('aria-label', labels.prev);
+    nav.querySelector('[data-deck-next]').setAttribute('aria-label', labels.next);
+    var index = 0;
+
+    function slides() { return Array.prototype.filter.call(track.children, function (c) { return !c.hidden; }); }
+    function mark() {
+      var list = slides();
+      counter.textContent = (index + 1) + ' / ' + list.length;
+      Array.prototype.forEach.call(dots.children, function (dot, j) {
+        if (j === index) dot.setAttribute('aria-current', 'true'); else dot.removeAttribute('aria-current');
+      });
+    }
+    function goTo(i, instant) {
+      var list = slides();
+      if (!list.length) return;
+      index = (i + list.length) % list.length;
+      if (auto) auto.reset(); // a new slide gets a full turn of the ring
+      track.scrollTo({ left: list[index].offsetLeft - list[0].offsetLeft, behavior: instant || reduceMotion ? 'auto' : 'smooth' });
+      mark();
+    }
+
+    var ticking = false;
+    track.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var list = slides();
+        if (!list.length) return;
+        var base = list[0].offsetLeft;
+        var best = 0;
+        list.forEach(function (slide, j) {
+          if (Math.abs(slide.offsetLeft - base - track.scrollLeft) < Math.abs(list[best].offsetLeft - base - track.scrollLeft)) best = j;
+        });
+        if (best !== index) { index = best; if (auto) auto.reset(); mark(); }
+      });
+    }, { passive: true });
+    nav.querySelector('[data-deck-prev]').addEventListener('click', function () { goTo(index - 1); });
+    nav.querySelector('[data-deck-next]').addEventListener('click', function () { goTo(index + 1); });
+    dots.addEventListener('click', function (ev) {
+      var dot = ev.target.closest('[data-dot]');
+      if (dot) goTo(Number(dot.dataset.dot));
+    });
+    el.addEventListener('keydown', function (ev) {
+      if (nav.hidden || ev.target.closest('input, textarea')) return;
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); goTo(index - 1); }
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); goTo(index + 1); }
+    });
+
+    // Auto-advance ring from carousel.js; it holds while the pointer is over a card
+    var auto = null;
+    var holding = false;
+    {
+      var ring = ringButton(labels.pause, labels.play, 'hp-deck-ring');
+      nav.appendChild(ring);
+      auto = autoAdvance(ring, {
+        delay: ROTATE,
+        next: function () { goTo(index + 1); },
+        held: function () { return holding || nav.hidden || el.hidden; }
+      });
+      track.addEventListener('pointerenter', function () { holding = true; });
+      track.addEventListener('pointerleave', function () { holding = false; });
+    }
+
+    this.refresh = function () {
+      var n = slides().length;
+      el.classList.toggle('hp-deck--multi', n > 1);
+      nav.hidden = n < 2;
+      if (dots.children.length !== n) {
+        dots.innerHTML = '';
+        for (var j = 0; j < n; j++) {
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'hp-deck-dot';
+          dot.dataset.dot = j;
+          dot.setAttribute('aria-label', (j + 1) + ' / ' + n);
+          dots.appendChild(dot);
+        }
+      }
+      if (n) goTo(Math.min(index, n - 1), true);
+    };
+  }
+
+  window.siteDeck = function (el, labels) { return new Deck(el, labels); };
+
   function initCarousel(root) {
     var track = root.querySelector('.carousel-track');
     var slides = track.children;
@@ -171,8 +278,20 @@
         panels[j].hidden = !on;
       });
       counter.textContent = index + 1;
-      if (focusTab) tabs[index].focus();
+      if (focusTab) tabs[index].focus({ preventScroll: true });
+      // Keep the selected face in the middle of the strip when it scrolls (many posts)
+      var tab = tabs[index];
+      if (list.scrollWidth > list.clientWidth) list.scrollTo({ left: tab.offsetLeft - (list.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' });
     }
+
+    var list = reader.querySelector('.lp-tablist');
+    function edges() {
+      list.classList.toggle('is-overflowing', list.scrollWidth > list.clientWidth + 2);
+      list.classList.toggle('at-end', list.scrollLeft >= list.scrollWidth - list.clientWidth - 2);
+    }
+    list.addEventListener('scroll', edges, { passive: true });
+    window.addEventListener('resize', edges);
+    edges();
 
     tabs.forEach(function (tab, j) {
       tab.addEventListener('click', function () { show(j); });
@@ -736,7 +855,45 @@
     render();
   }
 
+  // A swipeable row of cards ([data-rail], e.g. the award winners on an event page): the ‹ › buttons appear
+  // only when the row is wider than the screen, and each one fades out at its end of the row
+  function initRail(root) {
+    var track = root.querySelector('.award-rail');
+    var nav = root.querySelector('.rail-nav');
+    if (!track || !nav) return;
+    var prev = nav.querySelector('.rail-prev');
+    var next = nav.querySelector('.rail-next');
+
+    function update() {
+      var max = track.scrollWidth - track.clientWidth;
+      nav.hidden = max <= 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+      root.classList.toggle('rail-more-start', !nav.hidden && !prev.disabled);
+      root.classList.toggle('rail-more-end', !nav.hidden && !next.disabled);
+    }
+
+    function step(dir) {
+      var card = track.firstElementChild;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      var width = card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+      // A whole number of cards, so the row always stops on a card's edge
+      var cards = Math.max(1, Math.floor((track.clientWidth + gap) / width));
+      track.scrollBy({ left: dir * cards * width, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+
+    prev.addEventListener('click', function () { step(-1); });
+    next.addEventListener('click', function () { step(1); });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
   document.querySelectorAll('.nav-toggle').forEach(initMobileMenu);
+  document.querySelectorAll('[data-rail]').forEach(initRail);
+  document.querySelectorAll('[data-deck-static]').forEach(function (el) {
+    new Deck(el, { prev: el.dataset.labelPrev, next: el.dataset.labelNext, pause: el.dataset.labelPause, play: el.dataset.labelPlay }).refresh();
+  });
   document.querySelectorAll('[data-event-cal]').forEach(initEventCalendar);
   initMaps();
   initChannels();

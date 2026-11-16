@@ -169,5 +169,7 @@ stats:
       en: "Major hubs"
       zh: "专业展示区"
       ne: "मेजर हबहरू"
+# "Check This Out!" at the top of the events page, in this order
+pinned: 3
 weight: 7
 aliases: ["/events/ict-showcase-2026-semester-1/"]

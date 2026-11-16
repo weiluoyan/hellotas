@@ -126,5 +126,7 @@ projects:
       en: "KIT300 capstone teams and students from games, mobile app, mixed reality and graphics units demonstrated their projects to industry guests and alumni."
       zh: "KIT300毕业项目团队以及来自游戏、移动应用、混合现实和图形课程的学生向行业嘉宾和校友展示了他们的项目。"
       ne: "KIT300 क्यापस्टोन टोलीहरू र गेम्स, मोबाइल एप, मिक्स्ड रियलिटी तथा ग्राफिक्स युनिटका विद्यार्थीहरूले आफ्ना प्रोजेक्टहरू उद्योगका अतिथिहरू र पूर्वविद्यार्थीहरूलाई देखाए।"
+# "Check This Out!" at the top of the events page, in this order
+pinned: 5
 weight: 9
 aliases: ["/events/ict-project-showcase-2025/"]

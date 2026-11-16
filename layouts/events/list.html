@@ -9,6 +9,65 @@
 {{ partial "passon-bar.html" (dict "page" . "message" (i18n "eventsShareLabel")) }}
 
 
+{{- /* "Check This Out!": the School of ICT's biggest events (pinned: N in their data files), one wide card per slide,
+       with the same deck as Happening's "Recommended by us" (window.siteDeck in assets/js/carousel.js) */ -}}
+{{ with sort (where .Pages "Params.pinned" "gt" 0) "Params.pinned" }}
+<section class="container events-picks" aria-labelledby="events-picks-title">
+  <div class="hp-head">
+    <h2 id="events-picks-title">{{ partial "pin-icon.html" 24 }}{{ i18n "eventsPickedTitle" }}</h2>
+    <p>{{ i18n "eventsPickedSub" }}</p>
+  </div>
+  <div class="hp-deck" data-deck-static data-label-prev="{{ i18n "happeningPrevEvent" }}" data-label-next="{{ i18n "happeningNextEvent" }}" data-label-pause="{{ i18n "carouselPause" }}" data-label-play="{{ i18n "carouselPlay" }}" aria-roledescription="carousel" aria-label="{{ i18n "eventsPickedTitle" }}">
+    <div class="hp-deck-track" data-deck-track>
+      {{ range . }}
+      {{ $event := . }}
+      {{ $facts := partial "event-facts.html" . }}
+      {{ $photos := slice }}
+      {{ with .Params.image }}{{ $photos = $photos | append . }}{{ end }}
+      {{ with .Params.gallery }}{{ $photos = $photos | append . }}{{ end }}
+      <article class="hp-card hp-card--pinned hp-card--spot" id="pick-{{ .Params.year }}-{{ path.Base .RelPermalink }}">
+        <span class="hp-pin">{{ partial "pin-icon.html" 18 }}{{ i18n "happeningPinned" }}</span>
+        <div class="hp-card-media{{ if $photos }} hp-card-media--photos{{ end }}">
+          {{ with $photos }}
+          {{ $from := partial "photo-sources.html" $event }}
+          {{ $sources := slice }}{{ range . }}{{ $sources = $sources | append (index $from . | default ($event.Params.url | default "")) }}{{ end }}
+          {{ partial "carousel.html" (dict "images" . "sources" $sources "alt" $event.Title "class" "carousel--fit" "lazy" true "backdrop" true "lightbox" true) }}
+          {{ end }}
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-card-head">
+            {{ if not .Date.IsZero }}
+            <span class="hp-date" aria-hidden="true">
+              <span class="hp-date-month">{{ time.Format "Jan" .Date }}</span>
+              <span class="hp-date-day">{{ time.Format "2" .Date }}</span>
+            </span>
+            {{ end }}
+            <h3 class="hp-card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          </div>
+          <ul class="hp-facts">
+            {{ with $facts.when }}<li><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="2"/><path d="M1.75 6.25h12.5M5 1.25v3M11 1.25v3"/></svg><span>{{ . }}</span></li>{{ end }}
+            {{ with $facts.location }}<li><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path d="M8 14.5s-4.75-4-4.75-7.75a4.75 4.75 0 0 1 9.5 0C12.75 10.5 8 14.5 8 14.5z"/><circle cx="8" cy="6.75" r="1.6"/></svg><span>{{ . }}</span></li>{{ end }}
+          </ul>
+          {{ with .Params.summary }}<p class="hp-summary">{{ . }}</p>{{ end }}
+          <div class="hp-actions">
+            <a class="btn-primary hp-btn" href="{{ .RelPermalink }}">{{ i18n "eventsPickedOpen" }} <span aria-hidden="true">→</span></a>
+            {{ with .Params.linkedin_posts }}
+            <a class="voice-peek events-pick-peek" href="{{ $event.RelPermalink }}#linkedin">
+              <span class="voice-peek-faces" aria-hidden="true">
+                {{ range first 4 . }}{{ $post := . }}{{ with .avatar }}<img src="{{ strings.TrimPrefix "/" . | relURL }}" alt="" loading="lazy" width="32" height="32">{{ else }}<span class="author-initials">{{ partial "initials.html" $post.name }}</span>{{ end }}{{ end }}
+              </span>
+              <span class="voice-peek-text">{{ i18n "linkedInPostsCount" (len .) }}</span>
+            </a>
+            {{ end }}
+          </div>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
 <section class="container" data-event-filter>
   {{- /* Years come from the events themselves, newest first */ -}}
   {{ $years := slice }}
@@ -52,6 +111,7 @@
     {{ $search = $search | append $facts.topics }}
     {{ with .Params.about }}{{ $search = $search | append . }}{{ end }}
     {{ range .Params.linkedin_posts }}{{ $search = $search | append (slice .name .role .content .summary) }}{{ end }}
+    {{ range .Params.awards }}{{ range .items }}{{ $search = $search | append (slice .name .winner .sponsor) }}{{ end }}{{ end }}
     {{ if not .Date.IsZero }}{{ $search = $search | append (slice (.Date.Format "2 January 2006") (time.Format ":date_long" .Date)) }}{{ end }}
     <article class="event-card" data-search="{{ delimit $search " " | plainify | lower }}">
 {{ $photos := slice }}
@@ -79,7 +139,7 @@
         <div class="student-voice">
           <div class="voice-head">
             <span class="linkedin-icon">in</span>
-            <span class="linkedin-label">{{ i18n "studentVoice" }}</span>
+            <span class="linkedin-label">{{ $event.Params.voice_label | default (i18n "studentVoice") }}</span>
           </div>
           <p class="voice-quote">"{{ . }}"</p>
           <p class="voice-role">— {{ $event.Params.student_role }}</p>

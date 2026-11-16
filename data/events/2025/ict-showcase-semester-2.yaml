@@ -193,5 +193,7 @@ stats:
       en: "Sessions (day and evening)"
       zh: "场次（日间和晚间）"
       ne: "सत्रहरू (दिउँसो र साँझ)"
+# "Check This Out!" at the top of the events page, in this order
+pinned: 4
 weight: 3
 aliases: ["/events/ict-connect-collaborate-expo-2025/"]

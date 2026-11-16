@@ -279,5 +279,7 @@ stats:
       en: "Master's teams"
       zh: "硕士团队"
       ne: "स्नातकोत्तर टोलीहरू"
+# "Check This Out!" at the top of the events page, in this order
+pinned: 2
 weight: 3
 aliases: ["/events/ict-showcase-2026/"]
