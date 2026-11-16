@@ -1,6 +1,6 @@
 {{- /*
   Events from data/happening/*.yaml in the page's language, sorted by start, for the JSON and iCalendar feeds
-  and the homepage's "New and pinned" panel. Takes (dict "topic" "careers") to keep one topic, or (dict) for all.
+  and the homepage's "The Latest" section. Takes (dict "topic" "careers") to keep one topic, or (dict) for all.
   Dates are as written in the data (Hobart time with its offset), plus UTC and date-only forms for iCalendar.
 */ -}}
 {{- $lang := site.Language.Lang -}}
@@ -36,6 +36,7 @@
         "url" ($e.url | default "")
         "page" $page
         "image" $image
+        "image_path" ($e.image | default "")
         "pinned" ($e.pinned | default 0)
         "added" ($e.added | default "")
         "ts" $start.Unix

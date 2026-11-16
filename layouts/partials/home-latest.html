@@ -1,0 +1,218 @@
+{{- /*
+  "The Latest" on the homepage (upstream issues #61 and #74): one section for everything new.
+    1. The School of ICT's big stories from data/home_latest.yaml. The first is shown large with its photos
+       turning; the rest sit beside it. A story can point at a Past Events page and take everything from it.
+    2. The upcoming events from data/happening/ in one swipeable row. Built with every event that hasn't ended;
+       the script below drops the ones that have since, and puts them in order: on now, today, tomorrow, the
+       team's pins, then by date. Each says which it is, and the row ends with a way into Happening.
+*/ -}}
+{{- $lang := site.Language.Lang -}}
+{{- $en := eq $lang "en" -}}
+{{- $today := now.Format "2006-01-02" -}}
+
+{{- $stories := slice -}}
+{{- range hugo.Data.home_latest -}}
+  {{- if or (not .until) (ge (time.Format "2006-01-02" .until) $today) -}}
+    {{- $s := partial "event-localize.html" (dict "v" . "lang" $lang) -}}
+    {{- with .event -}}
+      {{- with site.GetPage (printf "/events/%s" .) -}}
+        {{- $p := .Params -}}
+        {{- $images := slice -}}
+        {{- with $p.image }}{{ $images = $images | append . }}{{ end -}}
+        {{- range $p.gallery }}{{ $images = $images | append . }}{{ end -}}
+        {{- $winners := slice -}}
+        {{- range $p.awards }}{{ range .items }}{{ if or .image .avatar }}{{ $winners = $winners | append . }}{{ end }}{{ end }}{{ end -}}
+        {{- $awards := 0 -}}
+        {{- range $p.awards }}{{ $awards = add $awards (len .items) }}{{ end -}}
+        {{- $s = merge $s (dict "title" .Title "text" $p.summary "date" .Date "href" .RelPermalink "images" (first 8 $images) "stats" ($p.stats | default slice) "winners" $winners "awards" $awards) -}}
+      {{- else -}}
+        {{- errorf "data/home_latest.yaml: there is no Past Events page %q (data/events/%s.yaml)" . . -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $s = merge $s (dict "images" (cond (isset . "image") (slice .image) slice) "href" "" "stats" slice "winners" slice "awards" 0) -}}
+    {{- end -}}
+    {{- $stories = $stories | append $s -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $soon := slice -}}
+{{- range partial "happening-feed-events.html" (dict) -}}
+  {{- if and (not .date_tbc) (ge (time .end).Unix now.Unix) }}{{ $soon = $soon | append . }}{{ end -}}
+{{- end -}}
+
+{{- if or $stories $soon }}
+<section class="home-latest" aria-labelledby="home-latest-title" data-home-latest data-live="{{ i18n "latestOnNow" }}" data-today="{{ i18n "happeningToday" }}" data-tomorrow="{{ i18n "latestTomorrow" }}">
+  <div class="container">
+    <div class="home-latest-head">
+      <div>
+        <h2 class="home-section-title" id="home-latest-title">{{ i18n "latestTitle" }}</h2>
+        <p class="home-section-lead">{{ i18n "latestLead" }}</p>
+      </div>
+      <div class="home-latest-links">
+        <a class="hp-btn-outline" href="{{ "events/" | relLangURL }}">{{ i18n "latestPast" }} <span aria-hidden="true">→</span></a>
+        <a class="hp-btn-outline" href="{{ "happening/" | relLangURL }}">{{ i18n "latestHappening" }} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    {{- with $stories }}
+    <div class="latest-stories">
+      {{- range $i, $s := . }}
+      {{- $lead := eq $i 0 }}
+      {{- if eq $i 1 }}
+      <div class="latest-side">
+      {{- end }}
+      <article class="latest-story{{ if $lead }} latest-story--lead{{ end }}"{{ with .until }} data-until="{{ time.Format "2006-01-02" . }}"{{ end }}>
+        {{- with .images }}
+        <div class="latest-story-media">
+          {{- partial "carousel.html" (dict "images" . "alt" $s.title "class" (cond $lead "latest-carousel" "latest-carousel carousel--fit") "autoplay" $lead "lazy" true "backdrop" (not $lead) "sizes" (cond $lead "(max-width: 900px) 100vw, 760px" "(max-width: 900px) 100vw, 440px")) }}
+        </div>
+        {{- end }}
+        <div class="latest-story-body">
+          <p class="latest-kicker">
+            <span class="home-new-tag">{{ .kicker | default (i18n "latestSpotlight") }}</span>
+            {{- with .date }}
+            <time datetime="{{ .Format "2006-01-02" }}">{{ if $en }}{{ .Format "Mon 2 Jan 2006" }}{{ else }}{{ partial "date-short.html" . }}{{ end }}</time>
+            {{- end }}
+          </p>
+          <h3 class="latest-story-title">{{ with .href }}<a href="{{ . }}">{{ $s.title }}</a>{{ else }}{{ .title }}{{ end }}</h3>
+          {{- with .text }}<p class="latest-story-text">{{ . }}</p>{{ end }}
+
+          {{- if .winners }}
+          {{- $shown := first (cond $lead 7 5) .winners }}
+          <a class="latest-winners" href="{{ .href }}#awards">
+            <span class="latest-winners-faces" aria-hidden="true">
+              {{- range $shown }}
+              {{- $img := partial "img.html" (dict "src" (.image | default .avatar) "width" 56) }}
+              <img src="{{ $img.src }}"{{ with $img.srcset }} srcset="{{ . }}"{{ end }} width="56" height="56" alt="" loading="lazy" decoding="async">
+              {{- end }}
+              {{- with sub $s.awards (len $shown) }}{{ if gt . 0 }}<span class="latest-winners-more">+{{ . }}</span>{{ end }}{{ end }}
+            </span>
+            <span class="latest-winners-text">{{ replace (i18n "latestWinners") "{n}" (string $s.awards) }} <span aria-hidden="true">→</span></span>
+          </a>
+          {{- else }}{{ with .stats }}
+          <dl class="latest-stats">
+            {{- range first (cond $lead 3 2) . }}
+            <div><dt>{{ .label }}</dt><dd>{{ .number }}</dd></div>
+            {{- end }}
+          </dl>
+          {{- end }}{{ end }}
+
+          <div class="latest-story-actions">
+            {{- with .href }}
+            <a class="btn-primary" href="{{ . }}">{{ i18n "eventsPickedOpen" }} <span aria-hidden="true">→</span></a>
+            {{- end }}
+            {{- with .link }}
+            <a class="hp-btn-outline" href="{{ .href }}" target="_blank" rel="noopener">{{ .label }} <span aria-hidden="true">↗</span><span class="sr-only"> ({{ i18n "happeningNewTab" }})</span></a>
+            {{- end }}
+          </div>
+        </div>
+      </article>
+      {{- end }}
+      {{- if gt (len .) 1 }}
+      </div>
+      {{- end }}
+    </div>
+    {{- end }}
+
+    {{- with $soon }}
+    <div class="latest-upcoming" data-rail data-latest-upcoming>
+      <div class="rail-nav" hidden>
+        <button type="button" class="rail-btn rail-prev" aria-label="{{ i18n "railPrev" }}"><span aria-hidden="true">‹</span></button>
+        <button type="button" class="rail-btn rail-next" aria-label="{{ i18n "railNext" }}"><span aria-hidden="true">›</span></button>
+      </div>
+      <ul class="rail-track latest-rail" aria-label="{{ i18n "latestUpcomingLabel" }}">
+        {{- range . }}
+        <li class="latest-event" data-start="{{ .start }}" data-end="{{ .end }}"{{ with .pinned }} data-pinned="{{ . }}"{{ end }}{{ with .added }} data-added="{{ . }}"{{ end }}>
+          <a class="latest-event-card" href="{{ .page }}">
+            <span class="latest-event-media{{ if not .image_path }} latest-event-media--blank{{ end }}">
+              {{- with .image_path }}
+              {{- /* Shown whole over a blurred copy of itself, so a banner keeps its text */}}
+              <span class="latest-event-pic">
+              <img class="latest-event-backdrop" src="{{ (partial "img.html" (dict "src" . "width" 64)).src }}" alt="" loading="lazy" decoding="async">
+              {{- $img := partial "img.html" (dict "src" . "widths" (slice 480 760)) }}
+              <img class="latest-event-img" src="{{ $img.src }}"{{ with $img.srcset }} srcset="{{ . }}" sizes="auto, (max-width: 600px) 80vw, 300px"{{ end }}{{ with $img.width }} width="{{ . }}" height="{{ $img.height }}"{{ end }} alt="" loading="lazy" decoding="async">
+              </span>
+              {{- end }}
+              <span class="hp-date" aria-hidden="true">
+                <span class="hp-date-month">{{ index (split (i18n "happeningMonthsShort") ",") (sub (int (time .start).Month) 1) }}</span>
+                <span class="hp-date-day">{{ time.Format "2" .start }}</span>
+              </span>
+            </span>
+            <span class="latest-event-body">
+              <span class="latest-event-tags">
+                <span class="home-new-tag" data-when hidden></span>
+                {{- if gt .pinned 0 }}
+                <span class="home-new-tag">{{ partial "pin-icon.html" 12 }}{{ i18n "happeningPinned" }}</span>
+                {{- end }}
+                <span class="home-new-tag" data-new hidden>{{ i18n "latestNew" }}</span>
+              </span>
+              <span class="latest-event-title">{{ .title }}</span>
+              {{- /* An event over several days shows both ends ("Mon 9 Nov – Thu 3 Dec"); with only the first day
+                   it looks finished once that day has passed */ -}}
+              {{- $multiDay := ne (time.Format "2006-01-02" .start) (time.Format "2006-01-02" .end) -}}
+              {{- $sameYear := eq (time.Format "2006" .start) (time.Format "2006" .end) }}
+              <span class="latest-event-meta"><time datetime="{{ .start }}">{{ if $en }}{{ time.Format (cond (and $multiDay $sameYear) "Mon 2 Jan" "Mon 2 Jan 2006") .start }}{{ else }}{{ partial "date-short.html" .start }}{{ end }}</time>{{ if $multiDay }} – <time datetime="{{ .end }}">{{ if $en }}{{ time.Format "Mon 2 Jan 2006" .end }}{{ else }}{{ partial "date-short.html" .end }}{{ end }}</time>{{ end }}{{ with .host }} · {{ . }}{{ end }}{{ if eq .format "online" }} · {{ i18n "happeningFormatOnline" }}{{ end }}</span>
+            </span>
+          </a>
+        </li>
+        {{- end }}
+        <li class="latest-event latest-event--all">
+          <a class="latest-event-card" href="{{ "happening/" | relLangURL }}">
+            <span class="latest-all-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            </span>
+            <span class="latest-all-title">{{ i18n "latestAllTitle" }}</span>
+            <span class="latest-all-text">{{ i18n "latestAllText" }}</span>
+            <span class="latest-all-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    {{- end }}
+  </div>
+  <script>
+    (function () {
+      var section = document.currentScript.closest('[data-home-latest]');
+      var now = Date.now();
+      // Days are Hobart days, so "today" means the same thing for every visitor
+      function day(t) { return new Date(t).toLocaleDateString('en-CA', { timeZone: 'Australia/Hobart' }); }
+      var today = day(now);
+      var tomorrow = day(now + 864e5);
+      var fortnight = now - 14 * 864e5;
+      section.querySelectorAll('.latest-story[data-until]').forEach(function (story) {
+        if (story.getAttribute('data-until') < today) story.remove();
+      });
+
+      var row = section.querySelector('[data-latest-upcoming]');
+      if (!row) return;
+      var list = row.querySelector('.latest-rail');
+      var end = list.querySelector('.latest-event--all');
+      var items = [];
+      list.querySelectorAll('.latest-event[data-start]').forEach(function (item) {
+        var start = Date.parse(item.getAttribute('data-start'));
+        if (Date.parse(item.getAttribute('data-end')) <= now) { item.remove(); return; }
+        var on = start <= now;
+        var startDay = day(start);
+        var pinned = Number(item.getAttribute('data-pinned')) || 0;
+        var rank = on ? 0 : startDay === today ? 1 : startDay === tomorrow ? 2 : pinned ? 3 : 4;
+        var when = item.querySelector('[data-when]');
+        if (rank < 3) {
+          when.textContent = on ? section.dataset.live : rank === 1 ? section.dataset.today : section.dataset.tomorrow;
+          when.hidden = false;
+          if (on) when.classList.add('home-now-live');
+        }
+        var added = item.getAttribute('data-added');
+        if (added && Date.parse(added) >= fortnight) item.querySelector('[data-new]').hidden = false;
+        items.push({ item: item, rank: rank, order: rank === 3 ? pinned : start });
+      });
+      items.sort(function (a, b) { return a.rank - b.rank || a.order - b.order; });
+      // Ten is plenty for a row; everything else is one tap away on Happening
+      items.forEach(function (x, i) {
+        if (i < 10) list.insertBefore(x.item, end);
+        else x.item.remove();
+      });
+      if (!items.length) row.remove();
+    })();
+  </script>
+</section>
+{{- end }}

@@ -38,7 +38,7 @@
           <div class="hp-card-head">
             {{ if not .Date.IsZero }}
             <span class="hp-date" aria-hidden="true">
-              <span class="hp-date-month">{{ time.Format "Jan" .Date }}</span>
+              <span class="hp-date-month">{{ index (split (i18n "happeningMonthsShort") ",") (sub (int .Date.Month) 1) }}</span>
               <span class="hp-date-day">{{ time.Format "2" .Date }}</span>
             </span>
             {{ end }}

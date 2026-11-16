@@ -1,0 +1,24 @@
+# The big stories at the top of the homepage's "The Latest" section (upstream issues #61 and #74), most important
+# first: the first one is shown large, the rest beside it. Upcoming events from data/happening/ follow by themselves.
+# Each item is either
+#   event    a Past Events page, e.g. 2026/ict-awards-night (data/events/2026/ict-awards-night.yaml). Its title,
+#            date, summary, photos, award winners and numbers are taken from that page.
+# or a news item written here:
+#   title, text   the headline and one or two sentences (plain, or with en / zh / ne inside)
+#   image         a picture in static/images/
+# Optional on both:
+#   kicker   the small label above the title (default "Spotlight")
+#   link     { href, label }: an outside page to read more, such as a LinkedIn post
+#   until    a date (YYYY-MM-DD): the item is hidden after this day; leave it out to keep it until removed
+- event: 2026/ict-awards-night
+  kicker:
+    en: "Just held · First ever"
+    zh: "刚刚举办 · 首届"
+    ne: "भर्खरै सम्पन्न · पहिलो पटक"
+  link:
+    href: "https://www.linkedin.com/posts/nicole-herbert0_come-and-meet-the-best-and-brightest-of-tasmanias-share-7523511537911652352-xRXT/"
+    label:
+      en: "Nicole Herbert's post"
+      zh: "Nicole Herbert 的帖子"
+      ne: "Nicole Herbert को पोस्ट"
+- event: 2026/ict-showcase-semester-2
